@@ -1,5 +1,5 @@
 #workspaces {
-  background-color: alpha(@base00, 0.8);
+  background-color: alpha(@surface, 0.8);
   padding: 8px;
   border-radius: 999px;
   margin: 0 4px;
@@ -9,22 +9,30 @@
   transition: all 250ms ease-in-out;
   padding: 0 4px;
   margin: 0 2px;
-  background: alpha(@base06, 0.8);
+  background: alpha(@secondary, 0.8);
   border-radius: 999px;
+}
+
+#workspaces button label {
+  color: @on_secondary;
 }
 
 #workspaces button.active {
   min-width: 48px;
-  background: alpha(@base0E, 0.8);
+  background: alpha(@primary, 0.8);
   border-radius: 8px;
 }
 
-#workspaces button:hover {
-  background: alpha(@base0D, 0.8);
+#workspaces button.active label {
+  color: @on_primary;
 }
 
-#workspaces button label {
-  color: @base00;
+#workspaces button:hover {
+  background: alpha(@tertiary, 0.8);
+}
+
+#workspaces button:hover label {
+  color: @on_tertiary;
 }
 
 #battery,
@@ -35,13 +43,10 @@
 #submap,
 #pulseaudio {
   margin: 0 4px;
-  background-color: alpha(@base00, 0.8);
+  background-color: alpha(@surface_container, 0.8);
+  color: @on_surface_container;
   padding: 8px 16px;
   border-radius: 999px;
-}
-
-#battery {
-  color: @base0B;
 }
 
 #clock {
@@ -49,22 +54,18 @@
 }
 
 #submap {
-  color: @base0C;
+  color: @error;
 }
 
-#mpris {
-  color: @base0B;
-}
-
+#mpris,
+#battery,
+#pulseaudio,
 #network {
-  color: @base0E;
-}
-
-#pulseaudio {
-  color: @base09;
+  color: @tertiary;
 }
 
 tooltip {
-  background: alpha(@base01, 0.7);
-  border: @base01;
+  background: alpha(@surface_variant, 0.7);
+  color: @on_surface_variant;
+  border: @outline_variant;
 }
