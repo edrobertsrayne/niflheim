@@ -39,6 +39,7 @@
       inputs.elephant.follows = "elephant";
     };
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    matugen.url = "github:InioX/Matugen";
   };
 
   outputs = inputs @ {

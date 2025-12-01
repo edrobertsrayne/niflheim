@@ -1,12 +1,8 @@
 _: {
-  flake.modules.homeManager.hyprland = {
-    lib,
-    config,
-    ...
-  }: let
-    inherit (config.lib.stylix) colors;
-  in {
+  flake.modules.homeManager.hyprland = {config, ...}: {
+    stylix.targets.hyprland.enable = false;
     wayland.windowManager.hyprland.settings = {
+      source = ["${config.xdg.configHome}/hypr/colors.conf"];
       general = {
         gaps_in = 8;
         gaps_out = 16;
@@ -14,16 +10,18 @@ _: {
         layout = "dwindle";
         allow_tearing = false;
         resize_on_border = false;
-        "col.active_border" = lib.mkForce "rgba(${colors.base0D}ff) rgba(${colors.base0B}ff) 45deg";
+        "col.active_border" = "$primary";
+        "col.inactive_border" = "$outline";
       };
 
       decoration = {
         rounding = 12;
         shadow = {
+          color = "rgba(21212199)";
           enabled = true;
-          range = 30;
+          range = 25;
           render_power = 3;
-          offset = "0 5";
+          offset = "0 2";
           scale = 1.0;
         };
         blur = {
@@ -41,7 +39,9 @@ _: {
       };
 
       group = {
-        "col.border_active" = lib.mkForce "rgba(${colors.base0D}ee) rgba(${colors.base0B}ee) 45deg";
+        "col.border_active" = "$primary";
+        "col.border_inactive" = "$outline";
+        "col.border_locked_active" = "$secondary";
       };
 
       animations = {

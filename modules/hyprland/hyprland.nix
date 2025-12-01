@@ -37,6 +37,7 @@ in {
       hyprpaper
       gtk
       swaync
+      matugen
     ];
 
     programs = {
