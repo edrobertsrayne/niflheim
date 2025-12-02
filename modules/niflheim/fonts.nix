@@ -1,5 +1,9 @@
 {lib, ...}: {
   options.flake.niflheim.fonts = with lib; {
+    terminal = mkOption {
+      type = types.int;
+      default = 12;
+    };
     serif = {
       package = mkOption {
         type = types.str;

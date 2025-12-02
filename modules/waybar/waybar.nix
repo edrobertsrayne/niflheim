@@ -131,7 +131,7 @@
             @import "colors.css";
 
             * {
-              font-family: "${fonts.monospace.name} Propo";
+              font-family: "${fonts.sans.name}", "${fonts.monospace.name} Propo";
               background-color: transparent;
               color: @on_surface;
               font-size: 14px;

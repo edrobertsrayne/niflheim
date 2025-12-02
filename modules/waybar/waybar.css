@@ -9,12 +9,12 @@
   transition: all 250ms ease-in-out;
   padding: 0 4px;
   margin: 0 2px;
-  background: alpha(@secondary, 0.8);
+  background: alpha(@surface_variant, 0.8);
   border-radius: 999px;
 }
 
 #workspaces button label {
-  color: @on_secondary;
+  color: @on_surface_variant;
 }
 
 #workspaces button.active {
@@ -39,29 +39,37 @@
 #network,
 #bluetooth,
 #clock,
-#mpris,
-#submap,
 #pulseaudio {
   margin: 0 4px;
-  background-color: alpha(@surface_container, 0.8);
-  color: @on_surface_container;
+  background-color: alpha(@surface, 0.8);
+  color: @on_surface_variant;
   padding: 8px 16px;
   border-radius: 999px;
 }
 
+#mpris {
+  margin: 0 4px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: alpha(@secondary_fixed_dim, 0.8);
+  color: @on_secondary_fixed;
+}
+
 #clock {
-  font-weight: 700;
+  font-weight: 600;
+}
+
+#battery.critical {
+  background-color: @error_container;
+  color: @on_error;
 }
 
 #submap {
-  color: @error;
-}
-
-#mpris,
-#battery,
-#pulseaudio,
-#network {
-  color: @tertiary;
+  margin: 0 4px;
+  background-color: alpha(@tertiary_container, 0.8);
+  color: @on_tertiary_container;
+  padding: 8px 16px;
+  border-radius: 999px;
 }
 
 tooltip {
