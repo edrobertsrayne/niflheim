@@ -60,7 +60,7 @@
 }
 
 #battery.critical {
-  background-color: @error_container;
+  background-color: @error;
   color: @on_error;
 }
 

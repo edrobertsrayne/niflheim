@@ -1,13 +1,11 @@
 {inputs, ...}: {
-  flake.modules.homeManager.walker = {config, ...}: let
-    inherit (config.lib.stylix) colors;
-  in {
+  flake.modules.homeManager.walker = {
     imports = [inputs.walker.homeManagerModules.default];
     programs.walker = {
       enable = true;
       runAsService = true;
       config = {
-        theme = "niflheim";
+        theme = "matugen";
         force_keyboard_focus = true;
         close_when_open = true;
         disable_mouse = false;
@@ -15,20 +13,15 @@
         global_argument_delimiter = "#";
         exact_search_prefix = "'";
       };
-      themes = {
-        "niflheim" = {
-          style =
-            ''
-              @define-color selected-text ${colors.withHashtag.base06};
-              @define-color text ${colors.withHashtag.base05};
-              @define-color base ${colors.withHashtag.base00};
-              @define-color border ${colors.withHashtag.base0D};
-              @define-color foreground ${colors.withHashtag.base05};
-              @define-color background ${colors.withHashtag.base00};
-            ''
-            + builtins.readFile ./style.css;
-        };
-      };
+      themes."matugen".style = let
+        inherit (inputs.self.niflheim) fonts;
+      in
+        ''
+          * {
+            font-family: "${fonts.sans.name}", "${fonts.monospace.name} Propo";
+          }
+        ''
+        + builtins.readFile ./style.css;
     };
   };
 }

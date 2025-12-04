@@ -21,6 +21,10 @@
         input_path = '${config.xdg.dataHome}/matugen/colors.css'
         output_path = '${config.xdg.configHome}/waybar/colors.css'
         post_hook = 'pkill -SIGUSR2 waybar'
+
+        [templates.walker]
+        input_path = '${config.xdg.dataHome}/matugen/colors.css'
+        output_path = '${config.xdg.configHome}/walker/themes/matugen/colors.css'
       '';
 
       dataFile = {
