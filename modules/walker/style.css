@@ -1,11 +1,12 @@
+@import "colors.css";
+
 * {
   all: unset;
 }
 
 * {
-  font-family: monospace;
-  font-size: 18px;
-  color: @text;
+  font-size: 16px;
+  color: @on_surface;
 }
 
 scrollbar {
@@ -21,10 +22,12 @@ scrollbar {
 }
 
 .box-wrapper {
-  background: alpha(@base, 0.95);
+  background: alpha(@surface_container_low, 0.9);
   padding: 24px;
-  border: 2px solid @border;
-  border-radius: 12px;
+  border-radius: 28px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .preview-box {
@@ -34,15 +37,19 @@ scrollbar {
 }
 
 .search-container {
-  background: @base;
-  padding: 8px;
-}
-
-.input placeholder {
-  opacity: 0.5;
+  background: @surface_container_highest;
+  padding: 12px 16px;
+  border-radius: 28px;
+  margin-bottom: 8px;
 }
 
 .input {
+  caret-color: @primary;
+}
+
+.input placeholder {
+  color: @on_surface_variant;
+  opacity: 0.7;
 }
 
 .input:focus,
@@ -61,32 +68,44 @@ scrollbar {
 }
 
 .list {
+  margin-top: 8px;
 }
 
 child,
 child > * {
+  transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 child:hover .item-box {
+  background: alpha(@on_surface, 0.08);
 }
 
 child:selected .item-box {
+  background: @secondary_container;
 }
 
 child:selected .item-box * {
-  color: @selected-text;
+  color: @on_secondary_container;
+}
+
+child:selected:hover .item-box {
+  background: alpha(@secondary_container, 0.92);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .item-box {
-  padding-left: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin: 4px 0;
 }
 
 .item-text-box {
   all: unset;
-  padding: 14px 0;
+  padding: 0;
 }
 
 .item-text {
+  color: @on_surface;
 }
 
 .item-subtext {
@@ -97,20 +116,31 @@ child:selected .item-box * {
 }
 
 .item-image {
-  margin-right: 14px;
+  margin-right: 16px;
   -gtk-icon-transform: scale(0.9);
+  color: @on_surface_variant;
+}
+
+child:selected .item-image {
+  color: @on_secondary_container;
 }
 
 .current {
   font-style: italic;
+  color: @primary;
 }
 
 .keybind-hints {
-  background: @background;
-  padding: 10px;
-  margin-top: 10px;
+  background: @surface_container;
+  padding: 12px 16px;
+  margin-top: 12px;
+  border-radius: 12px;
+  color: @on_surface_variant;
+  font-size: 14px;
 }
 
 .preview {
-  background: @background;
+  background: @surface_container;
+  border-radius: 12px;
+  padding: 16px;
 }
