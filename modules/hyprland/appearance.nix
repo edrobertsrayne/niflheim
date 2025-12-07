@@ -84,10 +84,6 @@ _: {
         focus_on_activate = true;
         anr_missed_pings = 3;
       };
-
-      cursor = {
-        hide_on_key_press = true;
-      };
     };
   };
 }
