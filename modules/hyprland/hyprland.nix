@@ -32,7 +32,6 @@ in {
       hyprlock
       hypridle
       hyprpaper
-      gtk
       swaync
       matugen
     ];
