@@ -1,6 +1,5 @@
 _: {
   flake.modules.homeManager.hyprland = {config, ...}: {
-    stylix.targets.hyprland.enable = false;
     wayland.windowManager.hyprland.settings = {
       source = ["${config.xdg.configHome}/hypr/colors.conf"];
       general = {

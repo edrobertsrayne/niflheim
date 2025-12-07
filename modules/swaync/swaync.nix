@@ -2,7 +2,6 @@
   flake.modules.homeManager.swaync = _: {
     # TODO: fix notification icons and MPRIS album art
     # TODO: add wireless, bluetooth and other relevant buttons
-    stylix.targets.swaync.enable = false;
 
     wayland.windowManager.hyprland.settings.bindd = [
       "SUPER, N, Toggle notification centre, exec, swaync-client -t -sw"

@@ -1,7 +1,5 @@
 _: {
   flake.modules.homeManager.hyprland = {pkgs, ...}: {
-    stylix.targets.gtk.enable = false;
-
     gtk = {
       enable = true;
       # font.name = fonts.sans.name;
