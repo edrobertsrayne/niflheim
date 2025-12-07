@@ -1,8 +1,7 @@
-_: {
+{inputs, ...}: {
   flake.modules.homeManager.hyprlock = {config, ...}: {
     programs.hyprlock = {
       enable = true;
-      # TODO: get the background image from waypaper and use on lock screen
       settings = {
         source = ["${config.xdg.configHome}/hypr/colors.conf"];
         background = [
@@ -40,14 +39,15 @@ _: {
           }
         ];
 
-        label = [
+        label = with inputs.self.niflheim; [
           # Time
           {
             monitor = "";
             text = ''cmd[update:1000] echo "$(date +"%H:%M")"'';
             color = "$on_surface";
-            font_size = 90;
-            font_family = "Inter";
+            font_size = 96;
+            font_family = "${fonts.sans.name}";
+            font_weight = 500;
 
             position = "0, 200";
             halign = "center";
@@ -58,8 +58,9 @@ _: {
             monitor = "";
             text = ''cmd[update:60000] echo "$(date +"%A, %B %d")"'';
             color = "$on_surface_variant";
-            font_size = 20;
-            font_family = "Inter";
+            font_size = 24;
+            font_family = "${fonts.sans.name}";
+            font_weight = 500;
 
             position = "0, 120";
             halign = "center";
