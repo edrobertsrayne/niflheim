@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.hyprland = {
+  flake.modules.homeManager.hyprland = {pkgs, ...}: {
     gtk = {
       enable = true;
       # font.name = fonts.sans.name;
@@ -7,6 +7,10 @@ _: {
       #   package = pkgs.adw-gtk3;
       #   name = "adw-gtk3";
       # };
+      iconTheme = {
+        package = pkgs.papirus-icon-theme;
+        name = "Papirus-Dark";
+      };
     };
 
     # xdg.configFile = {
