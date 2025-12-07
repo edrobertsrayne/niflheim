@@ -32,11 +32,11 @@
 
         [templates.gtk3]
         input_path = '${config.xdg.dataHome}/matugen/gtk-colors.css'
-        output_path = '${config.xdg.configHome}/gtk-3.0/colors.css'
+        output_path = '${config.xdg.configHome}/gtk-3.0/gtk.css'
 
         [templates.gtk4]
         input_path = '${config.xdg.dataHome}/matugen/gtk-colors.css'
-        output_path = '${config.xdg.configHome}/gtk-4.0/colors.css'
+        output_path = '${config.xdg.configHome}/gtk-4.0/gtk.css'
       '';
 
       dataFile = {
