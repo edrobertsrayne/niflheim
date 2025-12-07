@@ -1,363 +1,260 @@
-/* Slider and trough utilities */
-trough highlight {
-  background: @base05;
-}
-
-scale trough {
-  margin: 0rem 1rem;
-  background-color: @base01;
-  min-height: 8px;
-  min-width: 70px;
-}
-
-slider {
-  background-color: @base0D;
-}
-
-/* Floating notifications container */
-.floating-notifications.background .notification-row .notification-background {
-  box-shadow:
-    0 0 8px 0 rgba(0, 0, 0, 0.8),
-    inset 0 0 0 1px @base01;
-  border-radius: 12px;
-  margin: 16px;
-  background-color: alpha(@base00, 0.95);
-  color: @base05;
-  padding: 0;
-}
-
-.floating-notifications .notification {
-  border-radius: 12px;
-}
-
-/* Control center container */
+/* Control Center */
 .control-center {
-  box-shadow:
-    0 0 8px 0 rgba(0, 0, 0, 0.8),
-    inset 0 0 0 1px @base01;
-  border-radius: 12px;
+  background: alpha(@surface_container, 0.95);
+  border-radius: 8px;
+  padding: 16px;
   margin: 16px;
-  background-color: alpha(@base00, 0.9);
-  color: @base05;
-  padding: 12px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-.control-center .notification-row .notification-background {
-  border-radius: 8px;
-  color: @base05;
-  background-color: @base01;
-  box-shadow: inset 0 0 0 1px @base02;
-  margin-top: 12px;
+.control-center-list {
+  background: transparent;
 }
 
-.control-center .notification-row .notification-background:hover {
-  box-shadow: inset 0 0 0 1px @base02;
-  background-color: @base04;
-  color: @base05;
+.control-center-list-placeholder {
+  color: @on_surface_variant;
+  opacity: 0.7;
+  padding: 32px;
 }
 
-.control-center .notification-row .notification-background:active {
-  box-shadow: inset 0 0 0 1px @base02;
-  background-color: @base0C;
-  color: @base05;
-}
-
-/* Shared notification styles */
+/* Notifications */
 .notification {
-  padding: 8px;
+  background: alpha(@surface_container_high, 0.95);
   border-radius: 8px;
-  margin: 4px 0;
+  padding: 16px;
+  margin: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.notification:hover {
+  background: alpha(@surface_container_highest, 0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .notification.critical {
-  box-shadow: inset 0 0 7px 0 @base08;
+  background: alpha(@error_container, 0.95);
 }
 
-.notification .summary {
-  color: @base05;
-  font-size: 1rem;
+.notification.critical * {
+  color: @on_error_container;
 }
 
-.notification .time {
-  color: @base04;
-  font-size: 0.75rem;
-  margin-right: 20px;
+.notification.low {
+  background: alpha(@surface_container, 0.95);
 }
 
-.notification .body {
-  color: @base05;
-  font-size: 0.9rem;
+/* Notification content */
+.notification-content {
+  padding: 0;
 }
 
-.notification > *:last-child > * {
-  min-height: 3.4em;
-}
-
-/* Notification action buttons */
-.notification-action {
-  border-radius: 8px;
-  color: @base05;
-  box-shadow: inset 0 0 0 1px @base02;
-  margin: 8px;
-}
-
-.floating-notifications .notification-action {
-  background-color: @base01;
-}
-
-.control-center .notification-action {
-  background-color: @base00;
-}
-
-.notification-action:hover {
-  box-shadow: inset 0 0 0 1px @base02;
-  background-color: @base01;
-  color: @base05;
-}
-
-.notification-action:active {
-  box-shadow: inset 0 0 0 1px @base02;
-  background-color: @base0C;
-  color: @base05;
-}
-
-/* Close button */
-.close-button {
-  margin: 8px;
-  padding: 2px;
-  border-radius: 8px;
-  color: @base00;
-  background-color: @base08;
-}
-
-.close-button:hover {
-  background-color: @base08;
-  color: @base00;
-}
-
-.close-button:active {
-  background-color: @base08;
-  color: @base00;
-}
-
-/* Progress bars */
-.notification.critical progress {
-  background-color: @base08;
-}
-
-.notification.low progress,
-.notification.normal progress {
-  background-color: @base0D;
-}
-
-/* Control center widgets */
-.control-center .widget-title {
-  padding: 8px 12px;
-  margin: 12px;
-}
-
-.control-center .widget-title > label {
-  color: @base05;
-  font-size: 1.25rem;
-}
-
-.control-center .widget-title button {
-  border-radius: 8px;
-  color: @base05;
-  background-color: @base01;
-  box-shadow: inset 0 0 0 1px @base02;
-  padding: 8px;
-}
-
-.control-center .widget-title button:hover {
-  box-shadow: inset 0 0 0 1px @base02;
-  background-color: @base03;
-  color: @base05;
-}
-
-.control-center .widget-title button:active {
-  box-shadow: inset 0 0 0 1px @base02;
-  background-color: @base0C;
-  color: @base00;
-}
-
-.control-center-dnd {
-  margin-top: 5px;
-  border-radius: 8px;
-  background: @base01;
-  border: 1px solid @base02;
-  box-shadow: none;
-}
-
-.control-center-dnd:checked {
-  background: @base01;
-}
-
-.control-center-dnd slider {
-  background: @base02;
-  border-radius: 8px;
-}
-
-.widget-dnd {
-  padding: 8px 12px;
-  margin: 8px 12px;
-  font-size: 1rem;
-}
-
-.widget-dnd > switch {
-  font-size: initial;
-  border-radius: 8px;
-  background: @base01;
-  border: 1px solid @base02;
-  box-shadow: none;
-}
-
-.widget-dnd > switch:checked {
-  background: @base01;
-}
-
-.widget-dnd > switch slider {
-  background: @base02;
-  border-radius: 8px;
-  border: 1px solid @base03;
-}
-
-.widget-mpris {
-  background: alpha(@base01, 0.5);
-  border-radius: 12px;
-  padding: 12px;
-  margin: 12px;
-}
-
-.widget-mpris .widget-mpris-player {
-  background: transparent;
+.notification-default-action {
   padding: 0;
   margin: 0;
 }
 
-.widget-mpris .widget-mpris-album-art {
-  display: none;
-}
-
-.widget-mpris .widget-mpris-title {
-  color: @base05;
-  font-size: 1.1rem;
+.summary {
+  color: @on_surface;
   font-weight: bold;
-  margin-top: 8px;
+  font-size: 15px;
+  margin-bottom: 4px;
 }
 
-.widget-mpris .widget-mpris-subtitle {
-  color: @base04;
-  font-size: 0.9rem;
+.time {
+  color: @on_surface_variant;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.body {
+  color: @on_surface_variant;
+  font-size: 14px;
   margin-top: 4px;
 }
 
-.widget-mpris button {
-  background: alpha(@base02, 0.5);
-  border-radius: 8px;
-  color: @base05;
-  padding: 8px;
+.app-name {
+  color: @on_surface_variant;
+  font-size: 12px;
+}
+
+/* Notification actions */
+.notification-action {
+  background: @secondary_container;
+  color: @on_secondary_container;
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin: 8px 4px 0 4px;
+  transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.notification-action:hover {
+  background: alpha(@secondary_container, 0.85);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.notification-action:active {
+  background: alpha(@secondary_container, 0.75);
+}
+
+/* Close button */
+.close-button {
+  background: alpha(@on_surface, 0.08);
+  color: @on_surface;
+  border-radius: 20px;
+  padding: 4px;
   margin: 4px;
+  transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 
-.widget-mpris button:hover {
-  background: alpha(@base03, 0.7);
+.close-button:hover {
+  background: alpha(@on_surface, 0.12);
 }
 
-.widget-menubar > box > .menu-button-bar > button > label {
-  font-size: 2rem;
-  padding: 0.5rem 2rem;
+.close-button:active {
+  background: alpha(@on_surface, 0.16);
 }
 
-.widget-menubar > box > .menu-button-bar > :last-child {
-  color: @base08;
-}
-
-.power-buttons button:hover,
-.powermode-buttons button:hover,
-.screenshot-buttons button:hover {
-  background: @base01;
-}
-
-.control-center .widget-label {
-  margin: 12px;
-}
-
-.control-center .widget-label > label {
-  color: @base05;
-  font-size: 1.5rem;
-}
-
-.widget-buttons-grid {
+/* Header */
+.control-center-header {
   padding: 8px;
-  margin: 12px;
+  margin-bottom: 12px;
 }
 
-.widget-buttons-grid > flowbox > flowboxchild > button {
+.control-center-title {
+  color: @on_surface;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Clear all button */
+.control-center-clear-all {
+  background: @secondary_container;
+  color: @on_secondary_container;
+  border-radius: 20px;
+  padding: 8px 16px;
   margin: 4px;
+  transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 
-.widget-buttons-grid > flowbox > flowboxchild > button label {
-  font-size: 1.75rem;
+.control-center-clear-all:hover {
+  background: alpha(@secondary_container, 0.85);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-.widget-volume {
-  background: alpha(@base01, 0.5);
+.control-center-clear-all:active {
+  background: alpha(@secondary_container, 0.75);
+}
+
+/* DND toggle */
+.control-center-dnd {
+  background: @surface_container_highest;
+  border-radius: 28px;
+  padding: 12px;
+  margin: 8px 0;
+}
+
+.control-center-dnd:checked {
+  background: @tertiary_container;
+}
+
+.control-center-dnd:checked label {
+  color: @on_tertiary_container;
+}
+
+.control-center-dnd label {
+  color: @on_surface;
+  font-weight: bold;
+}
+
+/* Widgets */
+.widget-title {
+  color: @on_surface;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 12px 8px 8px 8px;
+}
+
+.widget-label {
+  color: @on_surface_variant;
+}
+
+.widget-button {
+  background: @surface_container_highest;
+  color: @on_surface;
   border-radius: 12px;
   padding: 12px;
-  margin: 12px;
+  margin: 4px;
+  transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 
-.widget-volume label {
-  font-size: 1rem;
-  color: @base05;
-  margin-bottom: 8px;
+.widget-button:hover {
+  background: alpha(@on_surface, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-.widget-volume scale trough {
-  background: alpha(@base02, 0.8);
-  border-radius: 8px;
-  min-height: 8px;
+.widget-button:active {
+  background: alpha(@on_surface, 0.12);
 }
 
-.widget-volume scale trough highlight {
-  background: @base0D;
-  border-radius: 8px;
-}
-
-.widget-volume scale slider {
-  background: @base0D;
-  border-radius: 8px;
-  min-width: 16px;
-  min-height: 16px;
-}
-
-.widget-backlight {
-  padding: 8px;
-  margin: 8px 12px;
-}
-
-.widget-backlight trough highlight {
-  background: @base0A;
-}
-
-.widget-backlight label {
-  font-size: 1.125rem;
-  color: @base0A;
-}
-
-.widget-backlight .KB {
-  padding-bottom: 1rem;
-}
-
-/* Hide all images in MPRIS notifications (both app icon and album art) */
-.notification-group.mpris .image,
-.notification.mpris .image,
-.notification-group.mpris image,
-.notification.mpris image {
-  display: none;
-}
-
+/* Image */
 .image {
-  padding-right: 20px;
+  margin-right: 12px;
+  border-radius: 8px;
+}
+
+.notification .image {
+  min-width: 48px;
+  min-height: 48px;
+}
+
+/* Inline reply */
+.inline-reply {
+  background: @surface_container_highest;
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin-top: 8px;
+  color: @on_surface;
+}
+
+.inline-reply:focus {
+  box-shadow: 0 0 0 2px @primary;
+  outline: none;
+}
+
+.inline-reply-button {
+  background: @primary;
+  color: @on_primary;
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin-left: 8px;
+  transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.inline-reply-button:hover {
+  background: alpha(@primary, 0.85);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.inline-reply-button:active {
+  background: alpha(@primary, 0.75);
+}
+
+/* Scrollbar */
+scrollbar {
+  background: transparent;
+  width: 8px;
+}
+
+slider {
+  background: alpha(@on_surface_variant, 0.3);
+  border-radius: 4px;
+  min-width: 8px;
+  min-height: 40px;
+}
+
+slider:hover {
+  background: alpha(@on_surface_variant, 0.5);
 }
