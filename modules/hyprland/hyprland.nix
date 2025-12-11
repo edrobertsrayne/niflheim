@@ -24,18 +24,6 @@ in {
       NIXOS_OZONE_WL = "1";
     };
 
-    imports = with inputs.self.modules.homeManager; [
-      xdg
-      waybar
-      walker
-      swayosd
-      hyprlock
-      hypridle
-      hyprpaper
-      swaync
-      matugen
-    ];
-
     programs = {
       firefox.enable = true;
     };

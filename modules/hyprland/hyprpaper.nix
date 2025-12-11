@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.hyprpaper = {pkgs, ...}: {
+  flake.modules.homeManager.hyprland = {pkgs, ...}: {
     services.hyprpaper.enable = true;
     home.packages = with pkgs; [
       waypaper

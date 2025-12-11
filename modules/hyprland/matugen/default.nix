@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.homeManager.matugen = {
+  flake.modules.homeManager.hyprland = {
     pkgs,
     config,
     ...
