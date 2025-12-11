@@ -13,8 +13,11 @@ _: {
         "tile, tag:chromium-based-browser"
 
         # Browser opacity
-        "opacity 1 0.97, tag:chromium-based-browser"
-        "opacity 1 0.97, tag:firefox-based-browser"
+        "opacity 1 0.85, tag:chromium-based-browser"
+        "opacity 1 0.85, tag:firefox-based-browser"
+
+        # Terminal opacity
+        "opacity 0.6, tag:terminal"
 
         # Floating window tag system
         "float, tag:floating-window"
