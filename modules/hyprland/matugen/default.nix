@@ -37,6 +37,11 @@
         [templates.gtk4]
         input_path = '${config.xdg.dataHome}/matugen/gtk.css'
         output_path = '${config.xdg.dataHome}/matugen/gtk4.css'
+
+        [templates.ghostty]
+        input_path = '${config.xdg.dataHome}/matugen/ghostty'
+        output_path = '${config.xdg.configHome}/ghostty/themes/matugen'
+        post_hook = 'pkill -SIGUSR2 ghostty'
       '';
 
       dataFile = {
@@ -53,6 +58,7 @@
           <* endfor *>
         '';
         "matugen/gtk.css".text = builtins.readFile ./gtk.css.mustache;
+        "matugen/ghostty".text = builtins.readFile ./ghostty.mustache;
       };
     };
   };

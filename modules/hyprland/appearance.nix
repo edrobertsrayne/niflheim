@@ -10,7 +10,7 @@ _: {
         allow_tearing = false;
         resize_on_border = false;
         "col.active_border" = "$primary";
-        "col.inactive_border" = "$outline";
+        "col.inactive_border" = "$surface";
       };
 
       decoration = {
@@ -39,7 +39,7 @@ _: {
 
       group = {
         "col.border_active" = "$primary";
-        "col.border_inactive" = "$outline";
+        "col.border_inactive" = "$surface";
         "col.border_locked_active" = "$secondary";
       };
 
