@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.homeManager.swaync = _: {
+  flake.modules.homeManager.hyprland = _: {
     # TODO: fix notification icons and MPRIS album art
     # TODO: add wireless, bluetooth and other relevant buttons
 

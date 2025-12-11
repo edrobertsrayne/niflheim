@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.swayosd = {
+  flake.modules.homeManager.hyprland = {
     services.swayosd = {
       enable = true;
     };

@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.homeManager.waybar = let
+  flake.modules.homeManager.hyprland = let
     inherit (inputs.self.niflheim) fonts;
   in
     {

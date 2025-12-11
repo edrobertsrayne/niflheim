@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.homeManager.xdg = {lib, ...}: let
+  flake.modules.homeManager.hyprland = {lib, ...}: let
     inherit (inputs.self.niflheim.desktop) browser;
 
     # Map common browser commands to their .desktop file names

@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.homeManager.walker = {
+  flake.modules.homeManager.hyprland = {
     imports = [inputs.walker.homeManagerModules.default];
     programs.walker = {
       enable = true;
