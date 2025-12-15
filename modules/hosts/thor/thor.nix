@@ -16,6 +16,8 @@
         portainer
         blocky
         media
+        libvirt
+        # stirling-pdf
         # home-assistant
         # karakeep
       ];
