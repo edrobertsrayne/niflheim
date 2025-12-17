@@ -51,6 +51,7 @@ in {
         package = pkgs.google-chrome;
       };
       vesktop.enable = true;
+      bun.enable = true;
     };
 
     home.packages = with pkgs; [
