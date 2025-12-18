@@ -1,24 +1,37 @@
-_: {
-  flake.modules.homeManager.python = {
-    programs = {
-      uv.enable = true;
-      ruff = {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim.user) username;
+in {
+  flake.modules = {
+    nixos.python = {
+      programs.nix-ld = {
         enable = true;
-        settings = {
-          line-length = 100;
-        };
       };
-      nvf.settings.vim = {
-        languages.python = {
+      home-manager.users.${username}.imports = [
+        inputs.self.modules.homeManager.python
+      ];
+    };
+
+    homeManager.python = {
+      programs = {
+        uv.enable = true;
+        ruff = {
           enable = true;
-          format = {
-            enable = true;
-            type = "ruff";
+          settings = {
+            line-length = 100;
           };
-          lsp.enable = true;
-          dap.enable = true;
         };
-        withPython3 = true;
+        nvf.settings.vim = {
+          languages.python = {
+            enable = true;
+            format = {
+              enable = true;
+              type = "ruff";
+            };
+            lsp.enable = true;
+            dap.enable = true;
+          };
+          withPython3 = true;
+        };
       };
     };
   };
