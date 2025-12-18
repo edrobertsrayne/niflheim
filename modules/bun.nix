@@ -2,10 +2,10 @@
   inherit (inputs.self.niflheim.user) username;
 in {
   flake.modules = {
-    nixos.bun = {
+    nixos.bun = {pkgs, ...}: {
       programs.nix-ld = {
         enable = true;
-        libraries = with inputs.nixpkgs.legacyPackages.x86_64-linux; [
+        libraries = with pkgs; [
           vips
           stdenv.cc.cc.lib
         ];
