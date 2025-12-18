@@ -1,6 +1,6 @@
 {inputs, ...}: {
   flake.modules.homeManager.spicetify = {pkgs, ...}: let
-    spkPkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+    spkPkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   in {
     imports = [inputs.spicetify-nix.homeManagerModules.spicetify];
 
