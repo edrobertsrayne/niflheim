@@ -2,7 +2,7 @@
   inherit (inputs.self.niflheim) server;
   ipAddress = "192.168.68.128";
 in {
-  flake.modules.nixos.thor = {lib, ...}: {
+  flake.modules.nixos.thor = {...}: {
     imports = [inputs.self.modules.nixos.proxmox];
 
     services.proxmox-ve = {
