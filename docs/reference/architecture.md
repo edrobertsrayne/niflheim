@@ -116,17 +116,14 @@ Choose the right location:
 | Type | Location | Example |
 |------|----------|---------|
 | Simple aspect | `modules/{name}.nix` | `modules/ssh.nix` |
-| Complex feature | `modules/{feature}/` | `modules/nixvim/lsp.nix` |
+| Complex feature | `modules/{feature}/` | `modules/neovim/lsp.nix` |
+| Desktop environment | `modules/hyprland/` | `modules/hyprland/waybar/waybar.nix` |
 | Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
-| Project option | `modules/niflheim/+{name}.nix` | `modules/niflheim/+user.nix` |
+| Project option | `modules/niflheim/{name}.nix` | `modules/niflheim/user.nix` |
 | Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
-| Stylix theming | `modules/stylix.nix` | Stylix with base function pattern |
-| Desktop options | `modules/niflheim/desktop.nix` | Custom desktop options (browser, launcher) |
-| Cross-platform tools | `modules/{tool}.nix` | `modules/alacritty.nix`, `modules/gtk.nix` |
-| Hypr ecosystem tools | `modules/{tool}.nix` | `modules/hypridle.nix`, `modules/hyprlock.nix`, `modules/hyprpaper.nix` |
+| Cross-platform tools | `modules/{tool}.nix` | `modules/alacritty.nix`, `modules/python.nix` |
 | macOS-specific | `modules/darwin/` | `modules/darwin/darwin.nix` |
-| Platform packages | `modules/{platform}/packages.nix` | `modules/hyprland/packages.nix` |
-| System shell setup | `modules/{nixos,darwin}/zsh.nix` | `modules/nixos/zsh.nix` |
+| System-level config | `modules/nixos/` | `modules/nixos/networking.nix` |
 
 ### Rule 3: Aggregator Pattern
 
@@ -287,7 +284,53 @@ config.flake.modules.nixos.something = {
 
 **Note:** The `+` prefix in filenames is optional - it's a convention to indicate custom options, but not required by import-tree.
 
-### Rule 6: Stylix Base Function Pattern
+### Rule 6: Hyprland Namespace Pattern
+
+For desktop environment components, use the namespace extension pattern demonstrated in `modules/hyprland/`:
+
+```nix
+# modules/hyprland/waybar/waybar.nix
+{ inputs, ... }: {
+  # Extend the hyprland namespace via attribute merging
+  flake.modules.homeManager.hyprland = {
+    programs.waybar = {
+      enable = true;
+      settings = { /* ... */ };
+    };
+  };
+}
+```
+
+**How it works:**
+- Main module (`hyprland.nix`) defines `flake.modules.homeManager.hyprland`
+- Related modules extend same namespace via attribute merging
+- Import-tree auto-loads all files in the directory
+- No manual imports needed in the aggregator
+
+**Benefits:**
+- All desktop components organized in one directory
+- Clear namespace (`hyprland`) for all related functionality
+- Automatic composition through import-tree
+- Easy to find and modify desktop configuration
+
+**When to use:**
+- Desktop environments with multiple related components
+- Feature sets that are always used together (compositor + bar + launcher + notifications)
+- When you want directory structure to mirror functional grouping
+
+**Example structure:**
+```
+modules/hyprland/
+├── hyprland.nix          # Core module, defines namespace
+├── waybar/waybar.nix     # Extends namespace
+├── walker/walker.nix     # Extends namespace
+├── swaync/swaync.nix     # Extends namespace
+└── keybinds.nix          # Extends namespace
+```
+
+All modules extend `flake.modules.homeManager.hyprland`, creating unified configuration.
+
+### Rule 7: Stylix Base Function Pattern
 
 For platform-specific configuration with shared settings, use the base function pattern:
 
@@ -338,7 +381,7 @@ in {
 - Theme/styling configuration that varies slightly by platform
 - Any configuration where you want to avoid duplication
 
-### Rule 7: Avoid Manual Imports
+### Rule 8: Avoid Manual Imports
 
 - ✗ DO NOT add imports in `flake.nix`
 - ✓ DO let `import-tree` discover modules automatically
@@ -368,21 +411,22 @@ Niflheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
 - `modules/obsidian.nix`, `modules/spicetify.nix`, `modules/python.nix` - Individual app configs
 - User-level shell config (`modules/zsh.nix`, `modules/starship.nix`)
 
-**Linux-Specific Modules** (`flake.modules.nixos.*`):
-- `modules/hyprland/` - Hyprland window manager configuration
-- `modules/hypridle.nix` - Hypr idle daemon
-- `modules/hyprlock.nix` - Hypr lock screen
-- `modules/hyprpaper.nix` - Hypr wallpaper daemon
-- `modules/waybar/` - Waybar status bar
-- `modules/walker/` - Walker application launcher
-- `modules/swayosd.nix` - OSD for volume/brightness
-- `modules/xdg.nix` - XDG/MIME configuration
+**Linux-Specific Modules** (`flake.modules.nixos.*` or `flake.modules.homeManager.*`):
+- `modules/hyprland/` - Hyprland compositor with complete desktop environment
+  - `hyprland.nix` - Core compositor configuration
+  - `hypridle.nix`, `hyprlock.nix`, `hyprpaper.nix` - Hypr ecosystem tools
+  - `waybar/` - Status bar
+  - `walker/` - Application launcher
+  - `swaync/` - Notification daemon
+  - `swayosd.nix` - OSD for volume/brightness
+  - `matugen/` - Material Design 3 theming
+  - `xdg.nix` - XDG/MIME configuration
+  - `keybinds.nix`, `window-rules.nix`, `appearance.nix` - Compositor configuration
+  - `menu.nix`, `screenshot.nix`, `packages.nix` - Desktop utilities
 - `modules/greetd.nix` - Display manager
 - `modules/audio.nix` - Audio with pipewire
 - `modules/gaming.nix` - Gaming support (Steam, etc.)
-- `modules/bluetooth.nix` - Bluetooth configuration
-- `modules/nixos/` - NixOS system config (networking, nix, ssh, home-manager, user, locale)
-- System-level shell setup (`modules/nixos/zsh.nix`)
+- `modules/nixos/` - NixOS system config (networking, nix, ssh, home-manager, user, locale, bluetooth, etc.)
 
 **Darwin-Specific Modules** (`flake.modules.darwin.*`):
 - `modules/darwin/darwin.nix` - macOS system defaults
@@ -405,9 +449,9 @@ Niflheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
 1. **Separation of Concerns:**
    - Simple cross-platform tools (Alacritty, GTK) are root-level modules
    - Complex apps (Firefox, VS Code, Chromium) configured directly in host files
-   - Wayland-specific tools (waybar, walker, swayosd) are standalone root-level modules
-   - Hypr ecosystem tools (hypridle, hyprlock, hyprpaper) are standalone modules
-   - Window manager config (Hyprland) in its own directory
+   - Complete desktop environment (Hyprland) organized in `modules/hyprland/` directory
+     - Includes compositor, Wayland tools (waybar, walker, swaync, swayosd), theming, and utilities
+     - All extend `flake.modules.homeManager.hyprland` via attribute merging
    - Shell configuration split: system-level (`nixos.zsh`/`darwin.zsh`) and user-level (`homeManager.zsh`)
 
 2. **Direct Host Composition:**

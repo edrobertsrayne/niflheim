@@ -304,6 +304,51 @@ For features that need their own directory:
 
 ---
 
+## Namespace Extension Pattern Template
+
+For desktop environment components that extend a shared namespace:
+
+```nix
+# modules/hyprland/waybar/waybar.nix
+{ inputs, ... }: {
+  # Extend the hyprland namespace via attribute merging
+  flake.modules.homeManager.hyprland = {
+    programs.waybar = {
+      enable = true;
+      settings = {
+        # ... waybar configuration
+      };
+    };
+
+    # Can also add packages, files, etc.
+    home.packages = [ /* ... */ ];
+  };
+}
+```
+
+```nix
+# modules/hyprland/walker/walker.nix
+{ inputs, ... }: {
+  # Also extends the hyprland namespace
+  flake.modules.homeManager.hyprland = {
+    programs.walker = {
+      enable = true;
+      # ... walker configuration
+    };
+  };
+}
+```
+
+**How it works:**
+- Main module (`hyprland.nix`) defines the namespace
+- Related modules extend same namespace via attribute merging
+- Import-tree auto-loads all files in directory
+- No manual imports needed
+
+**When to use:** Desktop environments or feature sets with multiple tightly-coupled components.
+
+---
+
 ## Host-Specific Configuration Template
 
 For truly host-specific config (hardware, unique settings):
@@ -356,10 +401,11 @@ For truly host-specific config (hardware, unique settings):
 |----------|----------|----------|
 | Simple aspect (SSH, Git) | Basic Module | `modules/{aspect}.nix` |
 | Feature with system + user config | Multi-Context | `modules/{feature}.nix` |
-| Shared settings/options | Custom Options | `modules/niflheim/+{option}.nix` |
+| Shared settings/options | Custom Options | `modules/niflheim/{option}.nix` |
 | Group related features | Aggregator | `modules/{group}.nix` |
 | Reusable functions | Helper Function | `modules/lib/{helper}.nix` |
 | Complex feature | Complex Feature | `modules/{feature}/` |
+| Desktop environment components | Namespace Extension | `modules/hyprland/{component}.nix` |
 | Hardware/host-unique | Host-Specific | `modules/hosts/{hostname}/` |
 
 ## Tips
@@ -369,3 +415,4 @@ For truly host-specific config (hardware, unique settings):
 3. **Name by purpose** - File name describes what it configures, not how
 4. **Follow existing patterns** - Look at similar modules in the codebase
 5. **Remember git add** - New files must be tracked for import-tree to load them
+6. **Use namespace extension** - For tightly-coupled components (like desktop environment), extend shared namespace

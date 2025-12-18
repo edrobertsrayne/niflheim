@@ -45,9 +45,11 @@ This configuration represents a ground-up rewrite focusing on:
 - **Interactive menu system** (Super+Alt+Space) with organized access to common
   tasks
 - **Screenshot tools** - grimblast + satty for capture and annotation
-- **Stylix** theming system (Tokyo Night colorscheme)
+- **Material Design 3 theming** - matugen for dynamic color generation with
+  Ghostty integration
 - **Walker** application launcher (Super+Space)
 - **Waybar** status bar with system information
+- **SwayNC** notification daemon
 - **Custom launchers** - launch-editor, launch-terminal, launch-browser,
   launch-presentation-terminal
 - **SwayOSD** for volume and brightness feedback
@@ -58,7 +60,9 @@ This configuration represents a ground-up rewrite focusing on:
   LazyVim-inspired plugins
 - **Tmux** with vim-tmux-navigator integration
 - **CLI utilities**: bat, eza, fzf, delta, lazygit, lazydocker, zoxide
-- **Python**: uv for fast package management
+- **Python**: uv for fast package management, ruff for linting, nix-ld for binary
+  compatibility
+- **JavaScript/TypeScript**: Bun runtime and package manager
 - **Terminal emulators**: Ghostty (default), Alacritty, Wezterm
 - **nh** - Nix helper for flake operations and system cleanup
 - **Dev shells** for project-specific environments
