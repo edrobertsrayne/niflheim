@@ -18,6 +18,7 @@ in {
           enable = true;
           settings = {
             line-length = 100;
+            select = ["E" "F" "I"];
           };
         };
         nvf.settings.vim = {
@@ -27,7 +28,10 @@ in {
               enable = true;
               type = "ruff";
             };
-            lsp.enable = true;
+            lsp = {
+              enable = true;
+              server = "pyright";
+            };
             dap.enable = true;
           };
           withPython3 = true;

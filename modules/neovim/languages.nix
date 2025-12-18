@@ -31,6 +31,14 @@ _: {
             python.enable = true;
             css.enable = true;
             bash.enable = true;
+            ts = {
+              enable = true;
+              lsp.enable = true;
+              format = {
+                enable = true;
+                type = "biome";
+              };
+            };
           };
         };
       };
