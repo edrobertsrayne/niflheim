@@ -14,6 +14,8 @@ in {
         bluetooth
         gaming
         libvirt
+        python
+        bun
       ]);
 
     boot = {
@@ -25,8 +27,6 @@ in {
       binfmt.emulatedSystems = ["aarch64-linux"];
     };
 
-    programs.nix-ld.enable = true;
-
     users.users.${username}.extraGroups = ["dialout"];
   };
 
@@ -37,7 +37,6 @@ in {
       neovim
       obsidian
       spicetify
-      python
       ghostty
       cava
       vscodium
