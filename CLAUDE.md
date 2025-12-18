@@ -1,18 +1,28 @@
 # Niflheim NixOS Configuration - AI Agent Guidelines
 
-Dendritic NixOS configuration using aspect-oriented, modular organization. Follow workflow and rules below.
+Dendritic NixOS configuration using aspect-oriented, modular organization.
+Follow workflow and rules below.
 
 ## 🔴 Critical Rules
 
 **Override all others. Follow strictly:**
 
-1. **Use Explore Agent**: For codebase investigation, use `Task` tool with `subagent_type=Explore` (not direct Grep/Glob)
-2. **Use TodoWrite**: Create task list in PLAN phase, update during implementation
-3. **Git Add Immediately**: After creating `.nix` files, run `git add path/to/file.nix` - import-tree only loads tracked files
+1. **Use Explore Agent**: For codebase investigation, use `Task` tool with
+   `subagent_type=Explore` (not direct Grep/Glob)
+2. **Use TodoWrite**: Create task list in PLAN phase, update during
+   implementation
+3. **Git Add Immediately**: After creating `.nix` files, run
+   `git add path/to/file.nix` - import-tree only loads tracked files
 4. **Wait for Approval**: Do not start CODE phase without explicit user approval
-5. **All Checks Must Pass**: Do not commit until alejandra, statix, and deadnix pass
-6. **Be Concise**: In all interactions and commits, sacrifice grammar for concision
-7. **List Questions**: End each plan with unresolved questions (if any); extremely concise
+5. **All Checks Must Pass**: Do not commit until alejandra, statix, and deadnix
+   pass
+6. **Be Concise**: In all interactions and commits, sacrifice grammar for
+   concision
+7. **List Questions**: End each plan with unresolved questions (if any);
+   extremely concise
+8. **Use Context7 Proactively**: Automatically fetch library docs when
+   implementing features using external libraries/frameworks. Don't wait for
+   user request.
 
 **When stuck:** See [troubleshooting.md](docs/reference/troubleshooting.md).
 
@@ -45,7 +55,8 @@ Follow four phases with explicit checkpoints. Do not skip.
 
 **Do not write, edit, or create files.**
 
-**STOP:** Present plan, list unresolved questions (if any), ask: "Does this plan look good? Should I proceed to implementation?"
+**STOP:** Present plan, list unresolved questions (if any), ask: "Does this plan
+look good? Should I proceed to implementation?"
 
 **CHECKPOINT:** Wait for explicit approval.
 
@@ -55,13 +66,15 @@ Follow four phases with explicit checkpoints. Do not skip.
 
 - Follow approved plan exactly
 - Create/modify files as planned
-- **Immediately `git add` new `.nix` files** (critical - import-tree only loads tracked files)
+- **Immediately `git add` new `.nix` files** (critical - import-tree only loads
+  tracked files)
 - Update TodoWrite (one in_progress at a time)
 - Test incrementally
 
 **Do not create commits. Do not deviate from plan without asking.**
 
-**CRITICAL:** New `.nix` files not git-added cause flake evaluation failures. See [troubleshooting.md](docs/reference/troubleshooting.md#import-tree-issues).
+**CRITICAL:** New `.nix` files not git-added cause flake evaluation failures.
+See [troubleshooting.md](docs/reference/troubleshooting.md#import-tree-issues).
 
 **STOP:** Run quality checks (Phase 4).
 
@@ -79,13 +92,14 @@ nix flake check --impure  # Build (if applicable)
 ```
 
 **Steps:**
+
 1. Run checks
 2. Fix issues (see [troubleshooting.md](docs/reference/troubleshooting.md))
 3. Present changes summary
 4. Create commit after user confirmation
 
-**Use Conventional Commits: `<type>(<aspect>): <description>`**
-**Use aspect name as scope (see [commit-guide.md](docs/reference/commit-guide.md))**
+**Use Conventional Commits: `<type>(<aspect>): <description>`** **Use aspect
+name as scope (see [commit-guide.md](docs/reference/commit-guide.md))**
 
 **Do not commit until all checks pass and user confirms.**
 
@@ -97,17 +111,47 @@ nix flake check --impure  # Build (if applicable)
 
 ## Module Placement
 
-| Type | Location | Example |
-|------|----------|---------|
-| Simple aspect | `modules/{name}.nix` | `modules/ssh.nix` |
-| Complex feature | `modules/{feature}/` | `modules/nixvim/lsp.nix` |
-| Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
-| Project option | `modules/niflheim/+{name}.nix` | `modules/niflheim/+user.nix` |
-| Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
+| Type             | Location                       | Example                            |
+| ---------------- | ------------------------------ | ---------------------------------- |
+| Simple aspect    | `modules/{name}.nix`           | `modules/ssh.nix`                  |
+| Complex feature  | `modules/{feature}/`           | `modules/nixvim/lsp.nix`           |
+| Host-specific    | `modules/hosts/{hostname}/`    | `modules/hosts/freya/hardware.nix` |
+| Project option   | `modules/niflheim/+{name}.nix` | `modules/niflheim/+user.nix`       |
+| Helper functions | `modules/lib/{name}.nix`       | `modules/lib/nixvim.nix`           |
 
-**Naming:** Use aspect/purpose names (`ssh.nix`, `development-tools.nix`), not host names.
+**Naming:** Use aspect/purpose names (`ssh.nix`, `development-tools.nix`), not
+host names.
 
 See [architecture.md](docs/reference/architecture.md) for details.
+
+---
+
+## Underscore Prefix Pattern
+
+**Files with `_` prefix are git-tracked but excluded from import-tree auto-loading.**
+
+**Use when:**
+- Host-specific config shouldn't auto-load on other hosts
+- Module has side effects (enables services, opens ports)
+- Explicit dependency declaration needed for safety
+
+**Example:**
+```nix
+# modules/hosts/thor/_hardware.nix - Not auto-loaded despite being tracked
+# modules/hosts/thor/thor.nix
+imports = [ ./_hardware.nix ];  # Explicit import required
+```
+
+**Behavior:**
+- Tracked in git (version control, collaboration)
+- Excluded from automatic import-tree loading
+- Require manual import in parent module
+- Create "private" modules with opt-in loading
+
+**Pattern creates visibility gradations:**
+1. Public modules (no prefix) - Auto-loaded, use anywhere
+2. Private modules (`_` prefix) - Explicit import required
+3. Untracked files (git ignored) - Local only
 
 ---
 
@@ -130,10 +174,11 @@ See [troubleshooting.md](docs/reference/troubleshooting.md) if checks fail.
 
 **Conventional Commits: `<type>(<aspect>): <description>`**
 
-**Types:** feat, fix, refactor, style, docs, chore
-**Scope:** Aspect name (module name without `.nix`)
+**Types:** feat, fix, refactor, style, docs, chore **Scope:** Aspect name
+(module name without `.nix`)
 
 **Examples:**
+
 - `feat(nixvim): add LSP support for Rust`
 - `fix(hyprland): correct keybind for workspace switching`
 - `refactor(desktop): reorganize aggregator imports`
@@ -147,7 +192,8 @@ See [commit-guide.md](docs/reference/commit-guide.md) for details.
 **Avoid (see [anti-patterns.md](docs/reference/anti-patterns.md)):**
 
 - ✗ Host-centric organization → Use aspect modules
-- ✗ Package-centric modules → Group by purpose, only create modules with configuration
+- ✗ Package-centric modules → Group by purpose, only create modules with
+  configuration
 - ✗ Manual import management → Trust import-tree
 - ✗ Interdependent feature modules → Use aggregators or custom options
 - ✗ Skip workflow phases → Follow Explore → Plan → Code → Commit
@@ -159,13 +205,13 @@ See [commit-guide.md](docs/reference/commit-guide.md) for details.
 ### Phase Checkpoint Example
 
 **After Plan:**
-> "Implementation plan:
-> [TodoWrite output]
+
+> "Implementation plan: [TodoWrite output]
 >
-> Files to modify: [list]
-> Files to create: [list]
+> Files to modify: [list] Files to create: [list]
 >
 > Unresolved questions:
+>
 > - [question 1]
 > - [question 2]
 >
@@ -181,10 +227,11 @@ See [commit-guide.md](docs/reference/commit-guide.md) for details.
 
 ## Additional Reference
 
-**Planning:** [architecture.md](docs/reference/architecture.md), [module-templates.md](docs/reference/module-templates.md)
-**Commit:** [commit-guide.md](docs/reference/commit-guide.md)
-**Errors:** [troubleshooting.md](docs/reference/troubleshooting.md)
-**Unsure:** [anti-patterns.md](docs/reference/anti-patterns.md)
+**Planning:** [architecture.md](docs/reference/architecture.md),
+[module-templates.md](docs/reference/module-templates.md) **Commit:**
+[commit-guide.md](docs/reference/commit-guide.md) **Errors:**
+[troubleshooting.md](docs/reference/troubleshooting.md) **Unsure:**
+[anti-patterns.md](docs/reference/anti-patterns.md)
 
 ---
 
