@@ -42,6 +42,11 @@
         input_path = '${config.xdg.dataHome}/matugen/ghostty'
         output_path = '${config.xdg.configHome}/ghostty/themes/matugen'
         post_hook = 'pkill -SIGUSR2 ghostty'
+
+        [templates.cava]
+        input_path = '${config.xdg.dataHome}/matugen/cava'
+        output_path = '${config.xdg.configHome}/cava/config'
+        post_hook = 'pkill -USR1 cava'
       '';
 
       dataFile = {
@@ -59,6 +64,7 @@
         '';
         "matugen/gtk.css".text = builtins.readFile ./gtk.css.mustache;
         "matugen/ghostty".text = builtins.readFile ./ghostty.mustache;
+        "matugen/cava".text = builtins.readFile ./cava.mustache;
       };
     };
   };
