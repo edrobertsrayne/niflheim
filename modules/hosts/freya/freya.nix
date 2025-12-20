@@ -47,7 +47,6 @@ in {
       zathura.enable = true;
       chromium = {
         enable = true;
-        package = pkgs.google-chrome;
       };
       vesktop.enable = true;
       bun.enable = true;

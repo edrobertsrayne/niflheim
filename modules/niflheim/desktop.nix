@@ -2,7 +2,7 @@
   options.flake.niflheim.desktop = with lib; {
     browser = mkOption {
       type = types.str;
-      default = "google-chrome";
+      default = "chromium";
       description = "Default web browser command";
     };
     launcher = mkOption {
