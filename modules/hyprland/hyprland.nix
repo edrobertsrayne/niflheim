@@ -19,9 +19,9 @@ in {
   };
 
   flake.modules.homeManager.hyprland = {
-    wayland.windowManager.hyprland = {
-      enable = true;
-      systemd.enable = false;
+    wayland.windowManager.hyprland.enable = true;
+    home.sessionVariables = {
+      NIXOS_OZONE_WL = "1";
     };
 
     programs = {

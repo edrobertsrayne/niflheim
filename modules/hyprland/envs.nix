@@ -1,9 +1,30 @@
 _: {
-  # Environment variables moved to ~/.config/uwsm/env
-  # See modules/hyprland/uwsm-env.nix
   flake.modules.homeManager.hyprland = {
     wayland.windowManager.hyprland.settings = {
-      env = [];
+      env = [
+        # Toolkit backends
+        "QT_QPA_PLATFORM,wayland;xcb"
+        "GDK_BACKEND,wayland,x11,*"
+        "SDL_VIDEODRIVER,wayland"
+        "CLUTTER_BACKEND,wayland"
+
+        # XDG specifications
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_TYPE,wayland"
+        "XDG_SESSION_DESKTOP,Hyprland"
+
+        # Application-specific
+        "XCOMPOSEFILE,$HOME/.XCompose"
+        "EDITOR,nvim"
+
+        # Firefox
+        "MOZ_ENABLE_WAYLAND,1"
+
+        # Chromium & Electron
+        "NIXOS_OZONE_WL,1"
+        "ELECTRON_OZONE_PLATFORM_HINT,auto"
+        "OZONE_PLATFORM,wayland"
+      ];
     };
   };
 }
