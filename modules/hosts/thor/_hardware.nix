@@ -21,6 +21,13 @@
   fileSystems."/mnt/disk1" = {
     device = "/dev/disk/by-uuid/45a78de5-b51a-48f3-be2e-179a7d0f40b6";
     fsType = "ext4";
+    options = ["noatime"];
+  };
+
+  fileSystems."/mnt/ssd" = {
+    device = "/dev/disk/by-uuid/306bb50a-8fc5-4eb6-8d21-b58fb537203d";
+    fsType = "ext4";
+    options = ["noatime"];
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
