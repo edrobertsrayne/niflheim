@@ -17,6 +17,7 @@
         blocky
         media
         libvirt
+        vaultwarden
         # stirling-pdf
         # home-assistant
         # karakeep
