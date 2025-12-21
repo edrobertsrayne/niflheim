@@ -21,6 +21,7 @@
         # stirling-pdf
         # home-assistant
         karakeep
+        mealie
       ];
 
       boot = {
