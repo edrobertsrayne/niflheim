@@ -13,6 +13,7 @@ in {
 
     systemd.tmpfiles.rules = [
       "d ${cfg.settings.incomplete-dir} 0755 ${cfg.user} tank -"
+      "d ${cfg.settings.download-dir} 0755 ${cfg.user} tank -"
     ];
 
     services.transmission = {
@@ -26,8 +27,8 @@ in {
         rpc-whitelist-enabled = false;
         rpc-host-whitelist-enabled = false;
 
-        download-dir = "/mnt/downloads";
-        incomplete-dir = "/mnt/downloads/incomplete";
+        download-dir = "/mnt/ssd/downloads/transmission/complete";
+        incomplete-dir = "/mnt/ssd/downloads/transmission/incomplete";
 
         ratio-limit-enabled = true;
         ratio-limit = 2.0;

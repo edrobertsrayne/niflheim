@@ -14,6 +14,11 @@ in {
 
     users.users.${cfg.user}.extraGroups = ["tank"];
 
+    systemd.tmpfiles.rules = [
+      "d /mnt/ssd/downloads/usenet/complete 0755 ${cfg.user} tank -"
+      "d /mnt/ssd/downloads/usenet/incomplete 0755 ${cfg.user} tank -"
+    ];
+
     systemd.services.sabnzbd.preStart = ''
       CONFIG="/var/lib/sabnzbd/sabnzbd.ini"
 
