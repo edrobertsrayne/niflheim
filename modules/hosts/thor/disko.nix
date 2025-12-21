@@ -52,22 +52,6 @@ _: {
             };
           };
         };
-        tank = {
-          device = "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_4TB_S6BCNF0W304378R";
-          type = "disk";
-          content = {
-            type = "gpt";
-            partitions = {
-              zfs = {
-                size = "100%";
-                content = {
-                  type = "zfs";
-                  pool = "tank";
-                };
-              };
-            };
-          };
-        };
       };
       zpool = {
         zroot = {
@@ -96,43 +80,6 @@ _: {
               type = "zfs_fs";
               mountpoint = "/";
               options."com.sun:auto-snapshot" = "false";
-            };
-          };
-        };
-        tank = {
-          type = "zpool";
-          rootFsOptions = {
-            acltype = "posixacl";
-            atime = "off";
-            compression = "zstd";
-            mountpoint = "none";
-            xattr = "sa";
-          };
-          options.ashift = "12";
-          datasets = {
-            "backup" = {
-              type = "zfs_fs";
-              mountpoint = "/mnt/backup";
-              options."com.sun:auto-snapshot" = "false";
-              mountOptions = ["nofail"];
-            };
-            "share" = {
-              type = "zfs_fs";
-              mountpoint = "/mnt/share";
-              options."com.sun:auto-snapshot" = "false";
-              mountOptions = ["nofail"];
-            };
-            "media" = {
-              type = "zfs_fs";
-              mountpoint = "/mnt/media";
-              options."com.sun:auto-snapshot" = "false";
-              mountOptions = ["nofail"];
-            };
-            "downloads" = {
-              type = "zfs_fs";
-              mountpoint = "/mnt/downloads";
-              options."com.sun:auto-snapshot" = "false";
-              mountOptions = ["nofail"];
             };
           };
         };

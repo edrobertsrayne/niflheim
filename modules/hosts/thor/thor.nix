@@ -32,9 +32,11 @@
             efiSysMountPoint = "/boot";
           };
         };
-        zfs.extraPools = ["tank"];
       };
       users.groups.tank.members = ["${inputs.self.niflheim.user.username}"];
+
+      # Ensure tmpfiles runs after /mnt/ssd is mounted
+      systemd.services.systemd-tmpfiles-setup.after = ["mnt-ssd.mount"];
 
       age.secrets.cloudflared.file = secret;
 
