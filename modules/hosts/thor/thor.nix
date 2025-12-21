@@ -20,7 +20,7 @@
         vaultwarden
         # stirling-pdf
         # home-assistant
-        # karakeep
+        karakeep
       ];
 
       boot = {

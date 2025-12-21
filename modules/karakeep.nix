@@ -3,12 +3,18 @@
 in {
   flake.modules.nixos.karakeep = _: let
     url = "keep.${domain}";
+    port = 8081;
   in {
     services = {
-      karakeep.enable = true;
+      karakeep = {
+        enable = true;
+        extraEnvironment = {
+          PORT = "${toString port}";
+        };
+      };
       nginx.virtualHosts."${url}" = {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:8081";
+          proxyPass = "http://127.0.0.1:${toString port}";
           proxyWebsockets = true;
         };
       };
