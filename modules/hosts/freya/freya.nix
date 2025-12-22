@@ -53,7 +53,7 @@ in {
     };
 
     home.packages = with pkgs; [
-      bambu-studio
+      orca-slicer
       zotero
     ];
   };
