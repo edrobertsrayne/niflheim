@@ -1,10 +1,12 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.loki = _: {
     services.loki = {
       enable = true;
       dataDir = "/srv/loki";
       configuration = {
-        server.http_listen_port = 3100;
+        server.http_listen_port = ports.loki;
         auth_enabled = false;
 
         ingester = {

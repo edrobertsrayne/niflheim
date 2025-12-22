@@ -1,4 +1,6 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.nixos = {lib, ...}: {
     services.openssh = {
       enable = true;
@@ -17,6 +19,6 @@ _: {
         UseDns = false;
       };
     };
-    networking.firewall.allowedTCPPorts = [22];
+    networking.firewall.allowedTCPPorts = [ports.ssh];
   };
 }

@@ -1,8 +1,10 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.thor = _: {
     services.prometheus.exporters.smartctl = {
       enable = true;
-      port = 9633;
+      port = ports.exporters.smartctl;
     };
   };
 
@@ -12,7 +14,7 @@ _: {
         job_name = "smartctl-exporter";
         static_configs = [
           {
-            targets = ["thor:9633"];
+            targets = ["thor:${toString ports.exporters.smartctl}"];
           }
         ];
       }

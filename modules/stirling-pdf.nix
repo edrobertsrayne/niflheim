@@ -1,12 +1,15 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server;
+  inherit (inputs.self.niflheim) server ports;
 in {
   flake.modules.nixos.stirling-pdf = {
-    services.stirling-pdf.enable = true;
+    services.stirling-pdf = {
+      enable = true;
+      port = ports.stirlingPdf;
+    };
 
     services.nginx.virtualHosts."stirling-pdf.${server.domain}" = {
       locations."/" = {
-        proxyPass = "http://127.0.0.1:8080";
+        proxyPass = "http://127.0.0.1:${toString ports.stirlingPdf}";
         proxyWebsockets = true;
       };
     };

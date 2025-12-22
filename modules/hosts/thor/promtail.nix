@@ -1,12 +1,12 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) monitoring;
+  inherit (inputs.self.niflheim) monitoring ports;
 in {
   flake.modules.nixos.thor = _: {
     services.promtail = {
       enable = true;
       configuration = {
         server = {
-          http_listen_port = 9080;
+          http_listen_port = ports.promtail;
           grpc_listen_port = 0;
         };
 
@@ -14,7 +14,7 @@ in {
 
         clients = [
           {
-            url = "http://${monitoring.serverAddress}:3100/loki/api/v1/push";
+            url = "http://${monitoring.serverAddress}:${toString ports.loki}/loki/api/v1/push";
           }
         ];
 
