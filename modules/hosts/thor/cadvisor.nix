@@ -1,8 +1,10 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.thor = _: {
     services.cadvisor = {
       enable = true;
-      port = 9338;
+      port = ports.exporters.cadvisor;
     };
   };
 
@@ -12,7 +14,7 @@ _: {
         job_name = "cadvisor";
         static_configs = [
           {
-            targets = ["thor:9338"];
+            targets = ["thor:${toString ports.exporters.cadvisor}"];
           }
         ];
       }

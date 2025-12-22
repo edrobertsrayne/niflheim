@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server;
+  inherit (inputs.self.niflheim) server ports;
 in {
   flake.modules.nixos.media = {
     config,
@@ -22,8 +22,8 @@ in {
       package = pkgs.transmission_4;
       settings = {
         rpc-bind-address = "0.0.0.0";
-        rpc-port = 9091;
-        peer-port = 51413;
+        rpc-port = ports.media.transmission;
+        peer-port = ports.media.transmissionPeer;
         rpc-whitelist-enabled = false;
         rpc-host-whitelist-enabled = false;
 

@@ -1,4 +1,6 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.nginx = {
     services.nginx = {
       enable = true;
@@ -19,6 +21,6 @@ _: {
       statusPage = true;
     };
 
-    networking.firewall.allowedTCPPorts = [80 443];
+    networking.firewall.allowedTCPPorts = [ports.http ports.https];
   };
 }

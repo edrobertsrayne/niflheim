@@ -1,11 +1,13 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.blocky = {pkgs, ...}: {
     services.blocky = {
       enable = true;
       settings = {
         ports = {
-          dns = 53;
-          http = 4000;
+          dns = ports.dns;
+          http = ports.blocky;
         };
         upstreams.groups.default = [
           "https://one.one.one.one/dns-query"

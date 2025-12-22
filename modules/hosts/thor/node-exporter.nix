@@ -1,8 +1,10 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.thor = _: {
     services.prometheus.exporters.node = {
       enable = true;
-      port = 9100;
+      port = ports.exporters.node;
       enabledCollectors = [
         "systemd"
         "processes"
@@ -18,7 +20,7 @@ _: {
         job_name = "node-exporter";
         static_configs = [
           {
-            targets = ["thor:9100"];
+            targets = ["thor:${toString ports.exporters.node}"];
           }
         ];
       }

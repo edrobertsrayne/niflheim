@@ -1,8 +1,10 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.thor = _: {
     services.prometheus.exporters.nginx = {
       enable = true;
-      port = 9113;
+      port = ports.exporters.nginx;
       scrapeUri = "http://localhost/nginx_status";
     };
   };
@@ -13,7 +15,7 @@ _: {
         job_name = "nginx-exporter";
         static_configs = [
           {
-            targets = ["thor:9113"];
+            targets = ["thor:${toString ports.exporters.nginx}"];
           }
         ];
       }

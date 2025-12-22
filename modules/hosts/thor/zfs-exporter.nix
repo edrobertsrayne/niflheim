@@ -1,8 +1,10 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.thor = _: {
     services.prometheus.exporters.zfs = {
       enable = true;
-      port = 9134;
+      port = ports.exporters.zfs;
     };
   };
 
@@ -12,7 +14,7 @@ _: {
         job_name = "zfs-exporter";
         static_configs = [
           {
-            targets = ["thor:9134"];
+            targets = ["thor:${toString ports.exporters.zfs}"];
           }
         ];
       }

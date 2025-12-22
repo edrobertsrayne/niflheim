@@ -1,12 +1,12 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server monitoring;
+  inherit (inputs.self.niflheim) server monitoring ports;
 in {
   flake.modules.nixos.grafana = {
     services.grafana = {
       enable = true;
       settings = {
         server = {
-          http_port = 3000;
+          http_port = ports.grafana;
           domain = "grafana.${server.domain}";
           root_url = "https://grafana.${server.domain}";
         };
@@ -20,14 +20,14 @@ in {
             name = "Prometheus";
             type = "prometheus";
             access = "proxy";
-            url = "http://${monitoring.serverAddress}:9090";
+            url = "http://${monitoring.serverAddress}:${toString ports.prometheus}";
             isDefault = true;
           }
           {
             name = "Loki";
             type = "loki";
             access = "proxy";
-            url = "http://${monitoring.serverAddress}:3100";
+            url = "http://${monitoring.serverAddress}:${toString ports.loki}";
           }
         ];
       };
@@ -35,7 +35,7 @@ in {
 
     services.nginx.virtualHosts."grafana.${server.domain}" = {
       locations."/" = {
-        proxyPass = "http://127.0.0.1:3000";
+        proxyPass = "http://127.0.0.1:${toString ports.grafana}";
         proxyWebsockets = true;
       };
     };

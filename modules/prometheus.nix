@@ -1,8 +1,10 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.prometheus = _: {
     services.prometheus = {
       enable = true;
-      port = 9090;
+      port = ports.prometheus;
       stateDir = "prometheus";
       globalConfig = {
         scrape_interval = "15s";
