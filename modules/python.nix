@@ -26,11 +26,11 @@ in {
             enable = true;
             format = {
               enable = true;
-              type = "ruff";
+              type = ["ruff"];
             };
             lsp = {
               enable = true;
-              server = "pyright";
+              servers = ["pyright"];
             };
             dap.enable = true;
           };

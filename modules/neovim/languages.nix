@@ -20,7 +20,7 @@ _: {
               };
               format = {
                 enable = true;
-                type = "alejandra";
+                type = ["alejandra"];
               };
               extraDiagnostics = {
                 enable = true;
@@ -36,7 +36,7 @@ _: {
               lsp.enable = true;
               format = {
                 enable = true;
-                type = "biome";
+                type = ["biome"];
               };
             };
           };
