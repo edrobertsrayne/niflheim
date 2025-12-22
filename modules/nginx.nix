@@ -14,6 +14,9 @@ _: {
           "" close;
         }
       '';
+
+      # Status endpoint for nginx-exporter
+      statusPage = true;
     };
 
     networking.firewall.allowedTCPPorts = [80 443];

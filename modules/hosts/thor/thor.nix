@@ -22,6 +22,9 @@
         # home-assistant
         karakeep
         mealie
+        prometheus
+        grafana
+        loki
       ];
 
       boot = {
