@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.smartd = _: {
+  flake.modules.nixos.thor = _: {
     services.smartd = {
       enable = true;
       autodetect = true;

@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.unclean-boot-detector = {pkgs, ...}: let
+  flake.modules.nixos.thor = {pkgs, ...}: let
     checkScript = pkgs.writeShellScript "check-unclean-boot" ''
       # Check if there was a previous boot
       if ! ${pkgs.systemd}/bin/journalctl --list-boots | grep -q '\-1'; then
