@@ -11,6 +11,7 @@ in {
         enable = true;
         extraEnvironment = {
           PORT = "${toString port}";
+          NEXTAUTH_URL = "https://${url}";
         };
         environmentFile = config.age.secrets.karakeep.path;
       };
