@@ -23,7 +23,6 @@
       url = "github:nix-community/disko/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    proxmox-nixos.url = "github:SaumonNet/proxmox-nixos";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nvf = {
       url = "github:notashelf/nvf";
