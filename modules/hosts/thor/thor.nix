@@ -19,7 +19,6 @@
         libvirt
         vaultwarden
         # stirling-pdf
-        # home-assistant
         karakeep
         mealie
         prometheus
