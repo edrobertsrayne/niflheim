@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server;
+  inherit (inputs.self.niflheim) server ports;
   apikey = "e6619670253d4b17baaa8a640a3aafed";
   service = "sonarr";
 in {
@@ -11,10 +11,13 @@ in {
         enable = true;
         dataDir = "/srv/${service}";
         openFirewall = true;
-        settings.auth = {
-          method = "External";
-          type = "DisabledForLocalAddresses";
-          inherit apikey;
+        settings = {
+          server.port = ports.media.sonarr;
+          auth = {
+            method = "External";
+            type = "DisabledForLocalAddresses";
+            inherit apikey;
+          };
         };
       };
     };

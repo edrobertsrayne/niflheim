@@ -1,7 +1,7 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim.server) domain;
-  url = "mealie.${domain}";
-  port = 8223;
+  inherit (inputs.self.niflheim) server ports;
+  url = "mealie.${server.domain}";
+  port = ports.mealie;
 in {
   flake.modules.nixos.mealie = {config, ...}: {
     age.secrets.mealie.file = ../secrets/mealie.age;

@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server;
+  inherit (inputs.self.niflheim) server ports;
   apikey = "c20dce066e08419daaa4c2cbbe4ddcbe";
   service = "prowlarr";
 in {
@@ -11,10 +11,13 @@ in {
         enable = true;
         dataDir = "/srv/${service}";
         openFirewall = true;
-        settings.auth = {
-          method = "External";
-          type = "DisabledForLocalAddresses";
-          inherit apikey;
+        settings = {
+          server.port = ports.media.prowlarr;
+          auth = {
+            method = "External";
+            type = "DisabledForLocalAddresses";
+            inherit apikey;
+          };
         };
       };
       flaresolverr.enable = true;
