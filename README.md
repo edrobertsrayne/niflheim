@@ -21,7 +21,7 @@ This configuration represents a ground-up rewrite focusing on:
 - **Composable Design**: Mix and match aspects to build systems declaratively
 - **Keyboard-First Workflow**: Everything accessible via keyboard (inspired by
   omarchy)
-- **Unified Theming**: System-wide consistency through Stylix (Tokyo Night)
+- **Unified Theming**: Material Design 3 theming via matugen (wallpaper-based)
 - **Self-Documenting**: Clear module boundaries with explicit dependencies
 
 ---
@@ -139,9 +139,10 @@ This configuration represents a ground-up rewrite focusing on:
 
 - [omarchy](https://github.com/basecamp/omarchy) - Overall design philosophy,
   keyboard-first workflow, custom launcher scripts, and aesthetic approach
-- [stylix](https://github.com/danth/stylix) - System-wide theming engine
-- [base16](https://github.com/tinted-theming/home/blob/main/styling.md) -
-  Theming specification and color schemes
+- [matugen](https://github.com/InioX/matugen) - Material Design 3 color scheme
+  generator from wallpaper
+- [Material Design 3](https://m3.material.io/) - Modern, accessible color system
+  and design language
 
 ---
 
