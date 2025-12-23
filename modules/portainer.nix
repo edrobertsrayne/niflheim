@@ -29,6 +29,10 @@ in {
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString ports.portainer}";
         proxyWebsockets = true;
+        extraConfig = ''
+          proxy_set_header X-Forwarded-Port $server_port;
+          proxy_buffering off;
+        '';
       };
     };
   };
