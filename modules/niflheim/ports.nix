@@ -46,9 +46,5 @@ _: {
     mealie = 8223;
     homeAssistant = 8123;
     stirlingPdf = 8082;
-
-    # Proxmox/Virtualization
-    proxmox = 8006;
-    proxmoxProxy = 3128;
   };
 }
