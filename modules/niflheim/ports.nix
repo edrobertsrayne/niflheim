@@ -44,7 +44,6 @@ _: {
     portainerEdge = 8000;
     karakeep = 8081;
     mealie = 8223;
-    homeAssistant = 8123;
     stirlingPdf = 8082;
   };
 }
