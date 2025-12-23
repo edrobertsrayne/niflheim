@@ -1,4 +1,6 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) ports;
+in {
   flake.modules.nixos.proxmox = {config, ...}: {
     imports = [inputs.proxmox-nixos.nixosModules.proxmox-ve];
 
@@ -30,8 +32,8 @@
 
     networking.firewall = {
       allowedTCPPorts = [
-        3128
-        8006
+        ports.proxmoxProxy
+        ports.proxmox
       ];
       allowedTCPPortRanges = [
         {

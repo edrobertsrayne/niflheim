@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server;
+  inherit (inputs.self.niflheim) server ports;
 in {
   flake.modules.nixos.portainer = {
     virtualisation.oci-containers = {
@@ -9,9 +9,9 @@ in {
         autoStart = true;
 
         ports = [
-          "9443:9443"
-          "9000:9000"
-          "8000:8000"
+          "${toString ports.portainerHTTPS}:9443"
+          "${toString ports.portainer}:9000"
+          "${toString ports.portainerEdge}:8000"
         ];
 
         volumes = [
@@ -27,7 +27,7 @@ in {
 
     services.nginx.virtualHosts."portainer.${server.domain}" = {
       locations."/" = {
-        proxyPass = "http://127.0.0.1:9000";
+        proxyPass = "http://127.0.0.1:${toString ports.portainer}";
         proxyWebsockets = true;
       };
     };

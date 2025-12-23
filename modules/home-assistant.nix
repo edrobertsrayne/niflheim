@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server;
+  inherit (inputs.self.niflheim) server ports;
 in {
   flake.modules.nixos.home-assistant = {
     virtualisation.oci-containers = {
@@ -21,7 +21,7 @@ in {
 
     services.nginx.virtualHosts."home.${server.domain}" = {
       locations."/" = {
-        proxyPass = "http://127.0.0.1:8123";
+        proxyPass = "http://127.0.0.1:${toString ports.homeAssistant}";
         proxyWebsockets = true;
       };
     };

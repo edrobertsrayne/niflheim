@@ -1,9 +1,9 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim.server) domain;
+  inherit (inputs.self.niflheim) server ports;
 in {
   flake.modules.nixos.karakeep = {config, ...}: let
-    url = "keep.${domain}";
-    port = 8081;
+    url = "keep.${server.domain}";
+    port = ports.karakeep;
   in {
     age.secrets.karakeep.file = ../secrets/karakeep.age;
     services = {

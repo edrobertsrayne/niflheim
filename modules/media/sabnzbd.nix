@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server;
+  inherit (inputs.self.niflheim) server ports;
 in {
   flake.modules.nixos.media = {config, ...}: let
     cfg = config.services.sabnzbd;
@@ -39,7 +39,7 @@ in {
 
     services.nginx.virtualHosts."${url}" = {
       locations."/" = {
-        proxyPass = "http://127.0.0.1:8080";
+        proxyPass = "http://127.0.0.1:${toString ports.media.sabnzbd}";
         proxyWebsockets = true;
         extraConfig = ''
           proxy_set_header X-Forwarded-Host $host;

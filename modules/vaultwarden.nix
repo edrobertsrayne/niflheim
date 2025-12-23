@@ -1,7 +1,7 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim.server) domain;
-  url = "vault.${domain}";
-  port = 8222;
+  inherit (inputs.self.niflheim) server ports;
+  url = "vault.${server.domain}";
+  port = ports.vaultwarden;
 in {
   flake.modules.nixos.vaultwarden = {
     services = {

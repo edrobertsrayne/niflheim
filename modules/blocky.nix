@@ -6,7 +6,7 @@ in {
       enable = true;
       settings = {
         ports = {
-          dns = ports.dns;
+          inherit (ports) dns;
           http = ports.blocky;
         };
         upstreams.groups.default = [
