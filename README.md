@@ -28,12 +28,12 @@ This configuration represents a ground-up rewrite focusing on:
 
 ## 💻 Current Hosts
 
-| Host      | Type    | Status     | Description                                                    |
-| --------- | ------- | ---------- | -------------------------------------------------------------- |
-| **freya** | Desktop | ✅ Active  | Main development workstation with Hyprland                     |
-| **thor**  | Server  | ✅ Active  | Media server with Jellyfin and *arr suite, Proxmox integration |
-| **odin**  | Desktop | ✅ Active  | macOS workstation with Yabai window manager                    |
-| **loki**  | Server  | 🗑️ Retired | Decommissioned                                                 |
+| Host      | Type    | Status     | Description                                            |
+| --------- | ------- | ---------- | ------------------------------------------------------ |
+| **freya** | Desktop | ✅ Active  | Main development workstation with Hyprland             |
+| **thor**  | Server  | ✅ Active  | Media server with monitoring and self-hosted services  |
+| **imac**  | Desktop | ✅ Active  | macOS workstation with Yabai window manager            |
+| **loki**  | Server  | 🗑️ Retired | Decommissioned                                         |
 
 ---
 
@@ -42,51 +42,79 @@ This configuration represents a ground-up rewrite focusing on:
 ### 🖥️ Desktop Environment
 
 - **Hyprland** compositor with comprehensive window management
-- **Interactive menu system** (Super+Alt+Space) with organized access to common
-  tasks
+- **Interactive menu system** (Super+Alt+Space) with organized access to common tasks
 - **Screenshot tools** - grimblast + satty for capture and annotation
-- **Material Design 3 theming** - matugen for dynamic color generation with
-  Ghostty integration
+- **Material Design 3 theming** - matugen for dynamic color generation from wallpaper
 - **Walker** application launcher (Super+Space)
 - **Waybar** status bar with system information
 - **SwayNC** notification daemon
-- **Custom launchers** - launch-editor, launch-terminal, launch-browser,
-  launch-presentation-terminal
+- **Custom launchers** - launch-editor, launch-terminal, launch-browser, launch-presentation-terminal
 - **SwayOSD** for volume and brightness feedback
 
 ### 🛠️ Development Tools
 
-- **Neovim** with modular configuration powered by snacks.nvim and
-  LazyVim-inspired plugins
+- **Neovim** with modular configuration powered by snacks.nvim and LazyVim-inspired plugins
 - **Tmux** with vim-tmux-navigator integration
 - **CLI utilities**: bat, eza, fzf, delta, lazygit, lazydocker, zoxide
-- **Python**: uv for fast package management, ruff for linting, nix-ld for binary
-  compatibility
+- **Python**: uv for fast package management, ruff for linting, nix-ld for binary compatibility
 - **JavaScript/TypeScript**: Bun runtime and package manager
 - **Terminal emulators**: Ghostty (default), Alacritty, Wezterm
 - **nh** - Nix helper for flake operations and system cleanup
 - **Dev shells** for project-specific environments
 
-### 🎬 Media Server Stack
-
-- **Jellyfin** media server
-- **Jellyseerr** request management
-- **Arr Suite**: Sonarr, Radarr, Lidarr, Prowlarr, Bazarr
-- **Transmission** BitTorrent client
-- **Sabnzbd** Usenet client
-
 ### 🏗️ Infrastructure
 
-- **Home Assistant** home automation
-- **Blocky** DNS server with ad-blocking
-- **Nginx** reverse proxy for services
-- **Proxmox** integration with monitoring
-- **Portainer** container management
-- **Karakeep** self-hosted bookmarking service
+- **Centralized Port Registry** - Single source of truth for all service ports
+- **Automatic Module Loading** - Zero-maintenance imports via import-tree
+- **Aspect-Oriented Architecture** - Modules organized by purpose, not host
 - **NFS/Samba** network file sharing
 - **Tailscale** mesh VPN
+- **Cloudflare Tunnel** secure external access
 - **Docker** container runtime
-- **Monitoring** - node-exporter, smartd, zfs-exporter, unclean-boot-detector
+
+---
+
+## 🚀 Services
+
+### Freya (Desktop)
+
+| Icon | Name | Description | Category |
+|------|------|-------------|----------|
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/firefox.svg" width="32"/> | Firefox | Privacy-focused web browser | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/chromium.svg" width="32"/> | Chromium | Open-source web browser | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/obsidian.svg" width="32"/> | Obsidian | Knowledge base and note-taking | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/spotify.svg" width="32"/> | Spotify | Music streaming | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/vscodium.svg" width="32"/> | VSCodium | Open-source code editor | Development |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/steam.svg" width="32"/> | Steam | Gaming platform | Gaming |
+
+### Thor (Server)
+
+| Icon | Name | Description | Category |
+|------|------|-------------|----------|
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/jellyfin.svg" width="32"/> | Jellyfin | Media server | Media |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/jellyseerr.svg" width="32"/> | Jellyseerr | Media request management | Media |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sonarr.svg" width="32"/> | Sonarr | TV show management | Media |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/radarr.svg" width="32"/> | Radarr | Movie management | Media |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/lidarr.svg" width="32"/> | Lidarr | Music management | Media |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prowlarr.svg" width="32"/> | Prowlarr | Indexer management | Media |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/bazarr.svg" width="32"/> | Bazarr | Subtitle management | Media |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/transmission.svg" width="32"/> | Transmission | BitTorrent client | Media |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/sabnzbd.svg" width="32"/> | Sabnzbd | Usenet client | Media |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/grafana.svg" width="32"/> | Grafana | Metrics visualization and dashboards | Monitoring |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prometheus.svg" width="32"/> | Prometheus | Time-series metrics database | Monitoring |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/loki.svg" width="32"/> | Loki | Log aggregation system | Monitoring |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/promtail.svg" width="32"/> | Promtail | Log shipping agent | Monitoring |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prometheus.svg" width="32"/> | Node Exporter | System metrics exporter | Monitoring |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prometheus.svg" width="32"/> | Nginx Exporter | Web server metrics exporter | Monitoring |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prometheus.svg" width="32"/> | ZFS Exporter | Filesystem metrics exporter | Monitoring |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prometheus.svg" width="32"/> | cAdvisor | Container metrics exporter | Monitoring |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/prometheus.svg" width="32"/> | Smartctl Exporter | Disk health metrics exporter | Monitoring |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/adguardhome.svg" width="32"/> | Blocky | DNS server with ad-blocking | Infrastructure |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/nginx.svg" width="32"/> | Nginx | Reverse proxy | Infrastructure |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/portainer.svg" width="32"/> | Portainer | Container management UI | Infrastructure |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/vaultwarden.svg" width="32"/> | Vaultwarden | Password manager | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/linkwarden.svg" width="32"/> | Karakeep | Self-hosted bookmarking | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/mealie.svg" width="32"/> | Mealie | Recipe manager | Application |
 
 ---
 

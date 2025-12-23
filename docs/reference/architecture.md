@@ -358,61 +358,7 @@ modules/hyprland/
 All modules extend `flake.modules.homeManager.hyprland`, creating unified
 configuration.
 
-### Rule 7: Stylix Base Function Pattern
-
-For platform-specific configuration with shared settings, use the base function
-pattern:
-
-```nix
-# modules/stylix.nix
-{ inputs, ... }: let
-  # Extract common configuration into a base function
-  base = pkgs: {
-    enable = true;
-    base16Scheme = pkgs.lib.mkDefault "${pkgs.base16-schemes}/share/themes/tokyo-night-moon.yaml";
-    opacity.terminal = 0.95;
-    fonts.monospace = {
-      package = pkgs.nerd-fonts.jetbrains-mono;
-      name = "JetBrainsMono Nerd Font";
-    };
-  };
-in {
-  # NixOS-specific configuration
-  flake.modules.nixos.stylix = {pkgs, ...}: {
-    imports = [inputs.stylix.nixosModules.stylix];
-
-    stylix = base pkgs // {
-      # Linux-specific theming
-      cursor = {
-        package = pkgs.bibata-cursors;
-        name = "Bibata-Modern-Classic";
-        size = 24;
-      };
-    };
-  };
-
-  # Darwin-specific configuration
-  flake.modules.darwin.stylix = {pkgs, ...}: {
-    imports = [inputs.stylix.darwinModules.stylix];
-    stylix = base pkgs;  # Uses base settings only
-  };
-}
-```
-
-**Benefits:**
-
-- Shared settings defined once in the `base` function
-- Platform-specific customizations added via attribute merging (`//`)
-- Clear separation of common vs platform-specific configuration
-- Easy to maintain and update shared settings
-
-**When to use:**
-
-- Platform-specific modules that share most configuration
-- Theme/styling configuration that varies slightly by platform
-- Any configuration where you want to avoid duplication
-
-### Rule 8: Module Coupling Patterns
+### Rule 7: Module Coupling Patterns
 
 Modules use two distinct patterns for including homeManager configuration:
 
@@ -477,7 +423,7 @@ Host-import when:
 _Tight:_ gaming, hyprland, python (nix-ld + dev tools), bun (nix-ld + runtime)
 _Loose:_ neovim, starship, utilities, obsidian
 
-### Rule 9: Avoid Manual Imports
+### Rule 8: Avoid Manual Imports
 
 - ✗ DO NOT add imports in `flake.nix`
 - ✓ DO let `import-tree` discover modules automatically
@@ -660,6 +606,244 @@ in {
 - **Platform-specific isolation** - Wayland/Hyprland deps stay in Linux modules
 - **Flexible composition** - Mix and match modules as needed per host
 - **Easy to understand** - One-to-one mapping between imports and functionality
+
+### Rule 9: Centralized Registry Pattern
+
+For shared configuration that multiple modules need to reference, use centralized registry pattern:
+
+```nix
+# modules/niflheim/ports.nix - Single source of truth
+{ lib, ... }: {
+  options.flake.niflheim.ports = lib.mkOption {
+    type = lib.types.submodule {
+      options = {
+        infrastructure = {
+          ssh = lib.mkOption { default = 22; };
+          http = lib.mkOption { default = 80; };
+          https = lib.mkOption { default = 443; };
+        };
+        monitoring = {
+          grafana = lib.mkOption { default = 3000; };
+          prometheus = lib.mkOption { default = 9090; };
+        };
+        # ... more services
+      };
+    };
+  };
+}
+```
+
+**Usage in modules:**
+
+```nix
+# modules/grafana.nix
+{ inputs, ... }: {
+  flake.modules.nixos.grafana = {
+    services.grafana = {
+      enable = true;
+      settings.server.http_port = inputs.self.niflheim.ports.monitoring.grafana;
+    };
+  };
+}
+```
+
+**Benefits:**
+- Single source of truth prevents port conflicts
+- Easy to see all port allocations in one place
+- Type-safe references across modules
+- Centralized documentation of service ports
+
+**When to use:**
+- Service ports (most common use case)
+- Shared constants (domain names, IP addresses)
+- Configuration values referenced by multiple modules
+- Values that need consistency across the system
+
+**Example:** `modules/niflheim/ports.nix` defines 30+ service ports used across infrastructure, monitoring, media, and application modules.
+
+### Rule 10: Dual-Namespace Pattern
+
+For distributed systems where some components run centrally and others run on specific hosts:
+
+```nix
+# modules/grafana.nix - Central monitoring server
+{ inputs, ... }: {
+  flake.modules.nixos.grafana = {
+    services.grafana = {
+      enable = true;
+      # ... central config
+    };
+  };
+}
+
+# modules/hosts/thor/node-exporter.nix - Host-specific exporter
+{ inputs, ... }: {
+  flake.modules.nixos.thor = {
+    # Local service
+    services.prometheus.exporters.node = {
+      enable = true;
+      port = inputs.self.niflheim.ports.exporters.node;
+    };
+  };
+
+  # Extend central Prometheus config
+  flake.modules.nixos.prometheus = {
+    services.prometheus.scrapeConfigs = [{
+      job_name = "node-thor";
+      static_configs = [{
+        targets = ["thor:${toString inputs.self.niflheim.ports.exporters.node}"];
+      }];
+    }];
+  };
+}
+```
+
+**How it works:**
+- Central services defined in root modules (grafana.nix, prometheus.nix, loki.nix)
+- Host-specific exporters in `modules/hosts/{hostname}/`
+- Exporters extend central service config (e.g., Prometheus scrape configs)
+- Shared config via custom options (`flake.niflheim.monitoring.serverAddress`)
+
+**Benefits:**
+- Clear separation: centralized vs distributed components
+- Host-specific exporters only load on relevant hosts
+- Central config automatically includes all host exporters
+- Scalable - add new exporters without modifying central config
+
+**When to use:**
+- Monitoring infrastructure (Prometheus + exporters)
+- Distributed logging (Loki + promtail)
+- Load balancing (central LB + backend nodes)
+- Any client-server architecture across hosts
+
+**Example:** Monitoring stack uses dual-namespace:
+- **Central (root modules):** grafana.nix, prometheus.nix, loki.nix
+- **Distributed (thor host):** node-exporter.nix, nginx-exporter.nix, zfs-exporter.nix, cadvisor.nix, smartctl-exporter.nix, promtail.nix
+
+### Rule 11: Underscore Prefix Pattern
+
+Files with `_` prefix are git-tracked but excluded from import-tree auto-loading:
+
+```nix
+# modules/hosts/thor/_hardware.nix - Tracked but not auto-loaded
+{ config, lib, pkgs, ... }: {
+  # Host-specific hardware config
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" ];
+  # ... more hardware settings
+}
+
+# modules/hosts/thor/thor.nix - Explicit import required
+{ inputs, ... }: {
+  flake.modules.nixos.thor = {
+    imports = [
+      ./_hardware.nix  # Must explicitly import underscore-prefixed files
+      ./_nfs.nix
+      ./_samba.nix
+    ];
+  };
+}
+```
+
+**Use when:**
+- Host-specific config shouldn't auto-load on other hosts
+- Module has side effects (enables services, opens ports)
+- Explicit dependency declaration needed for safety
+- Config is sensitive or security-critical
+
+**Behavior:**
+- ✓ Tracked in git (version control, collaboration)
+- ✓ Can be explicitly imported when needed
+- ✗ Excluded from automatic import-tree loading
+- ✗ Requires manual import in parent module
+
+**Pattern creates visibility gradations:**
+1. **Public modules** (no prefix) - Auto-loaded everywhere, use anywhere
+2. **Private modules** (`_` prefix) - Explicit import required, opt-in loading
+3. **Untracked files** (git ignored) - Local only, not in version control
+
+**Decision criteria:**
+
+Use underscore prefix when:
+- Config opens network ports/services
+- Hardware-specific settings that break other hosts
+- Security settings that shouldn't propagate
+- Want explicit control over when module loads
+
+Use regular naming when:
+- Cross-platform compatible modules
+- Safe to auto-load everywhere
+- No host-specific side effects
+- Want automatic composition
+
+**Example:** Thor server uses underscore prefix extensively:
+- `_hardware.nix` - Hardware config breaks other hosts
+- `_nfs.nix`, `_samba.nix` - Network services with security implications
+- All require explicit import in `thor.nix` for safety
+
+### Rule 12: Host-Level Service Extensions
+
+Host-specific modules can extend root-level service configurations:
+
+```nix
+# modules/hosts/thor/zfs-exporter.nix
+{ inputs, ... }: let
+  port = inputs.self.niflheim.ports.exporters.zfs;
+in {
+  # Define local service
+  flake.modules.nixos.thor = {
+    services.prometheus.exporters.zfs = {
+      enable = true;
+      inherit port;
+    };
+  };
+
+  # Extend global Prometheus config
+  flake.modules.nixos.prometheus = {
+    services.prometheus.scrapeConfigs = [{
+      job_name = "zfs-exporter";
+      static_configs = [{
+        targets = ["thor:${toString port}"];
+        labels.instance = "thor";
+      }];
+    }];
+  };
+}
+```
+
+**How it works:**
+- Host module configures local service (ZFS exporter on thor)
+- Same module extends global service (adds scrape config to Prometheus)
+- Prometheus running anywhere sees thor's exporter config
+- Attribute merging combines configs from all hosts
+
+**Benefits:**
+- Colocation - exporter and its scrape config in same file
+- Self-contained - adding exporter automatically registers it
+- No central bottleneck - don't modify root Prometheus config
+- Scalable - each host manages its own exporters
+
+**When to use:**
+- Monitoring exporters (most common)
+- Backup agents registering with central server
+- Service discovery for distributed systems
+- Any host-specific service that needs central registration
+
+**Update module placement table:**
+
+| Type                 | Location                      | Example                                       |
+| -------------------- | ----------------------------- | --------------------------------------------- |
+| Simple aspect        | `modules/{name}.nix`          | `modules/ssh.nix`                             |
+| Complex feature      | `modules/{feature}/`          | `modules/neovim/lsp.nix`                      |
+| Desktop environment  | `modules/hyprland/`           | `modules/hyprland/waybar/waybar.nix`          |
+| Host-specific        | `modules/hosts/{hostname}/`   | `modules/hosts/freya/hardware.nix`            |
+| Host-specific (safe) | `modules/hosts/{hostname}/_*.nix` | `modules/hosts/thor/_hardware.nix`        |
+| Host exporters       | `modules/hosts/{hostname}/`   | `modules/hosts/thor/node-exporter.nix`        |
+| Project option       | `modules/niflheim/{name}.nix` | `modules/niflheim/user.nix`                   |
+| Centralized registry | `modules/niflheim/ports.nix`  | Port definitions for all services             |
+| Helper functions     | `modules/lib/{name}.nix`      | `modules/lib/nixvim.nix`                      |
+| Cross-platform tools | `modules/{tool}.nix`          | `modules/alacritty.nix`, `modules/python.nix` |
+| macOS-specific       | `modules/darwin/`             | `modules/darwin/darwin.nix`                   |
+| System-level config  | `modules/nixos/`              | `modules/nixos/networking.nix`                |
 
 ---
 
