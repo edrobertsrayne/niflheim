@@ -24,6 +24,7 @@ _: {
         "microsoft-edge"
         "processing"
         "raycast"
+        "rectangle"
         "steam"
         "tailscale-app"
         "typora"

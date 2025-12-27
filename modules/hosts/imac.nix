@@ -2,7 +2,6 @@
   flake.modules.darwin.imac = {
     imports = with inputs.self.modules.darwin; [
       zsh
-      yabai
     ];
   };
 
