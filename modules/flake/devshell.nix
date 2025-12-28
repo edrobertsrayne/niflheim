@@ -1,4 +1,4 @@
-{inputs, ...}: {
+_: {
   perSystem = {pkgs, ...}: {
     devShells.default = pkgs.mkShell {
       packages = with pkgs; [
@@ -8,7 +8,6 @@
         statix
         deadnix
         just
-        inputs.agenix.packages.${stdenv.hostPlatform.system}.default
       ];
     };
     formatter = pkgs.alejandra;
