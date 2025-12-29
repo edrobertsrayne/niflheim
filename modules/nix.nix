@@ -1,14 +1,12 @@
-{inputs, ...}: let
-  inherit (inputs.self.niflheim.user) username;
-in {
-  flake.modules.nixos.nixos = {
+_: {
+  flake.modules.nixos.nix = {
     nix = {
       enable = true;
       settings = {
         experimental-features = ["nix-command" "flakes"];
-        auto-optimise-store = true;
+        trusted-users = ["root"];
+        # auto-optimise-store = true;
         warn-dirty = false;
-        trusted-users = ["root" "${username}"];
         substituters = [
           "https://cache.nixos.org"
           "https://nix-community.cachix.org"
@@ -48,7 +46,7 @@ in {
     nixpkgs.config.allowUnfree = true;
   };
 
-  flake.modules.darwin.darwin = {
+  flake.modules.darwin.nix = {
     nix.enable = false; # nix daemon managed by determinant
 
     nixpkgs.config.allowUnfree = true;

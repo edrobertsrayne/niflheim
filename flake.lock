@@ -1012,6 +1012,7 @@
         "nixpkgs": "nixpkgs_5",
         "nvf": "nvf",
         "spicetify-nix": "spicetify-nix",
+        "srvos": "srvos",
         "walker": "walker"
       }
     },
@@ -1031,6 +1032,26 @@
       "original": {
         "owner": "Gerg-L",
         "repo": "spicetify-nix",
+        "type": "github"
+      }
+    },
+    "srvos": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1766626001,
+        "narHash": "sha256-YQk9UVG4PsrTp4LVbWCDwuc594S9H05pxNgjK8R30/U=",
+        "owner": "nix-community",
+        "repo": "srvos",
+        "rev": "cf609acbe9aa6f53120df7b1adad16957e481b93",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "srvos",
         "type": "github"
       }
     },

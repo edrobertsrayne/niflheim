@@ -7,6 +7,7 @@ in {
         inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
       ]
       ++ (with inputs.self.modules.nixos; [
+        networking
         zsh
         greetd
         audio

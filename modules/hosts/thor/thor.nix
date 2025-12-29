@@ -11,6 +11,7 @@
     }: {
       imports = with inputs.self.modules.nixos; [
         ./_hardware.nix
+        networking
 
         nginx
         portainer

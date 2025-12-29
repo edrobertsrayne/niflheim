@@ -1,11 +1,11 @@
 _: {
-  flake.modules.nixos.nixos = {
+  flake.modules.nixos.tailscale = {
     pkgs,
     config,
     ...
   }: {
     age.secrets = {
-      tailscale.file = ../../secrets/tailscale.age;
+      tailscale.file = ../secrets/tailscale.age;
     };
     environment.systemPackages = with pkgs; [tailscale];
     services.tailscale = {
