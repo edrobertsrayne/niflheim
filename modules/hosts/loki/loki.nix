@@ -15,13 +15,13 @@
           ]
           ++ (with inputs.self.modules.nixos; [
             common
-            host-loki
+            loki
           ]);
       }
     ];
   };
 
-  flake.modules.nixos.host-loki = {config, ...}: {
+  flake.modules.nixos.loki = {config, ...}: {
     networking = {
       hostName = "loki";
 
@@ -39,6 +39,7 @@
         };
       };
     };
+
     system.nixos.tags = let
       cfg = config.boot.loader.raspberryPi;
     in [
@@ -47,7 +48,13 @@
       config.boot.kernelPackages.kernel.version
     ];
 
+    system.stateVersion = "25.05";
+
     services = {
+      tailscale = {
+        useRoutingFeatures = "server";
+      };
+
       udev.extraRules = ''
         # Ignore partitions with "Required Partition" GPT partition attribute
         # On our RPis this is firmware (/boot/firmware) partition
