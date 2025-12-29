@@ -24,7 +24,7 @@
         mealie
         prometheus
         grafana
-        loki
+        grafana-loki
       ];
 
       boot = {

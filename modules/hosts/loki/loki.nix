@@ -10,35 +10,21 @@
             raspberry-pi-5.display-vc4
             raspberry-pi-5.bluetooth
             sd-image
-
+          ]
+          ++ [
             inputs.srvos.nixosModules.common
           ]
           ++ (with inputs.self.modules.nixos; [
             common
             loki
+            wireless
           ]);
       }
     ];
   };
 
   flake.modules.nixos.loki = {config, ...}: {
-    networking = {
-      hostName = "loki";
-
-      useNetworkd = true;
-
-      wireless.enable = false;
-      wireless.iwd = {
-        enable = true;
-        settings = {
-          Network = {
-            EnableIPv6 = true;
-            RoutePriorityOffset = 300;
-          };
-          Settings.AutoConnect = true;
-        };
-      };
-    };
+    networking.hostName = "loki";
 
     system.nixos.tags = let
       cfg = config.boot.loader.raspberryPi;
