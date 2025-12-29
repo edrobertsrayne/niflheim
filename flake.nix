@@ -35,6 +35,7 @@
     };
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     matugen.url = "github:InioX/Matugen";
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
   };
 
   outputs = inputs @ {
