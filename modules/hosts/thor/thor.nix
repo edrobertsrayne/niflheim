@@ -34,6 +34,7 @@
             efiSysMountPoint = "/boot";
           };
         };
+        binfmt.emulatedSystems = ["aarch64-linux"];
       };
       users.groups.tank.members = ["${inputs.self.niflheim.user.username}"];
 
