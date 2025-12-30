@@ -111,13 +111,13 @@ name as scope (see [commit-guide.md](docs/reference/commit-guide.md))**
 
 ## Module Placement
 
-| Type             | Location                       | Example                            |
-| ---------------- | ------------------------------ | ---------------------------------- |
-| Simple aspect    | `modules/{name}.nix`           | `modules/ssh.nix`                  |
-| Complex feature  | `modules/{feature}/`           | `modules/nixvim/lsp.nix`           |
-| Host-specific    | `modules/hosts/{hostname}/`    | `modules/hosts/freya/hardware.nix` |
-| Project option   | `modules/niflheim/+{name}.nix` | `modules/niflheim/+user.nix`       |
-| Helper functions | `modules/lib/{name}.nix`       | `modules/lib/nixvim.nix`           |
+| Type             | Location                      | Example                            |
+| ---------------- | ----------------------------- | ---------------------------------- |
+| Simple aspect    | `modules/{name}.nix`          | `modules/ssh.nix`                  |
+| Complex feature  | `modules/{feature}/`          | `modules/nixvim/lsp.nix`           |
+| Host-specific    | `modules/hosts/{hostname}/`   | `modules/hosts/freya/hardware.nix` |
+| Project option   | `modules/niflheim/{name}.nix` | `modules/niflheim/user.nix`        |
+| Helper functions | `modules/lib/{name}.nix`      | `modules/lib/nixvim.nix`           |
 
 **Naming:** Use aspect/purpose names (`ssh.nix`, `development-tools.nix`), not
 host names.
@@ -131,15 +131,22 @@ See [architecture.md](docs/reference/architecture.md) for details.
 **Files with `_` prefix are git-tracked but excluded from import-tree auto-loading.**
 
 **Use when:**
+- Generated hardware configs that should be version-controlled but not auto-loaded
 - Host-specific config shouldn't auto-load on other hosts
 - Module has side effects (enables services, opens ports)
 - Explicit dependency declaration needed for safety
 
-**Example:**
+**Examples:**
 ```nix
-# modules/hosts/thor/_hardware.nix - Not auto-loaded despite being tracked
+# Use case 1: Generated hardware config (no side effects)
+# modules/hosts/thor/_hardware.nix - nixos-generate-config output
 # modules/hosts/thor/thor.nix
 imports = [ ./_hardware.nix ];  # Explicit import required
+
+# Use case 2: Services with side effects
+# modules/hosts/thor/_nfs.nix - Enables services, opens firewall ports
+# modules/hosts/thor/thor.nix
+imports = [ ./_nfs.nix ];  # Opt-in for side-effect modules
 ```
 
 **Behavior:**
@@ -221,7 +228,7 @@ See [commit-guide.md](docs/reference/commit-guide.md) for details.
 
 - `{aspect}.nix` - Single-file aspect (`ssh.nix`)
 - `{feature}/` - Multi-file feature (`nixvim/`)
-- `+{option}.nix` - Project option (`+user.nix`)
+- `{option}.nix` - Project option (`user.nix`)
 
 ---
 
