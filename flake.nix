@@ -35,6 +35,11 @@
     };
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     matugen.url = "github:InioX/Matugen";
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
+    srvos = {
+      url = "github:nix-community/srvos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {

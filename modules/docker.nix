@@ -1,7 +1,7 @@
 {inputs, ...}: let
   inherit (inputs.self.niflheim.user) username;
 in {
-  flake.modules.nixos.nixos = {
+  flake.modules.nixos.docker = {
     virtualisation.docker = {
       enable = true;
     };

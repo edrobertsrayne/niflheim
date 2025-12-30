@@ -1,6 +1,9 @@
 {inputs, ...}: {
-  flake.modules.darwin.darwin = {
-    imports = [inputs.self.modules.darwin.home-manager];
+  flake.modules.darwin.darwin = with inputs.self.modules.darwin; {
+    imports = [
+      home-manager
+      nix
+    ];
     system = {
       primaryUser = "ed";
       defaults = {

@@ -18,7 +18,7 @@ niflheim/
 ├── flake.nix                    # Entry point (minimal, just dependencies)
 ├── modules/
 │   ├── flake/                   # Flake-parts configuration
-│   ├── niflheim/                # Custom project options (+user.nix)
+│   ├── niflheim/                # Custom project options (user.nix)
 │   ├── hosts/                   # Host-specific configurations
 │   │   └── {hostname}/          # Per-host modules
 │   ├── lib/                     # Custom library functions
@@ -160,6 +160,65 @@ flake.modules.homeManager.utilities = {
 **Current approach:** Most hosts directly import individual modules rather than
 using aggregators, which provides maximum flexibility and clarity.
 
+### Rule 3a: Module Complexity Guideline
+
+**Principle:** One module, one concern.
+
+**When to split a module:**
+
+Split when a module grows large because it's handling **multiple distinct concerns**:
+
+```nix
+# ✅ GOOD: Each file handles one concern
+modules/neovim/
+├── lsp.nix          # Language servers
+├── keymaps.nix      # Keybindings
+├── completion.nix   # Completion engine
+└── languages.nix    # Language-specific settings
+
+# ❌ BAD: Single file handling multiple concerns
+modules/neovim.nix   # 2000+ lines mixing LSP, keymaps, completion, etc.
+```
+
+**Don't split when:**
+
+A module is large but handles **one cohesive concern**:
+
+```nix
+# ✅ ACCEPTABLE: Large but single concern
+modules/hyprland/keybinds.nix   # 132 lines, all keybindings
+modules/neovim/keymaps.nix      # 158 lines, all keymaps
+modules/neovim/utility.nix      # 183 lines, utility plugin configs
+```
+
+**Special case: Hyprland**
+
+The `hyprland/` directory is an exception - it contains an entire desktop environment setup:
+- Compositor (Hyprland itself)
+- Status bar (Waybar)
+- App launcher (Walker)
+- Notifications (SwayNC)
+- Theming (Matugen)
+- Desktop utilities
+
+This violates "one concern" but makes sense because:
+- All components tightly coupled (Wayland desktop environment)
+- Always used together as a unit
+- Natural grouping for desktop setup
+- Clear namespace (`hyprland`) for desktop-related config
+
+**Decision guide:**
+
+| Scenario | Action |
+|----------|--------|
+| Module handles one thing well | Keep as single file, regardless of size |
+| Module mixes concerns | Split by concern into directory |
+| Files in directory share namespace | Use namespace aggregation pattern |
+| Files in directory are separate modules | Use subdirectories (waybar/, walker/) |
+| Tightly coupled component suite | Group in directory (like hyprland/) |
+
+**No hard line count threshold** - let logical boundaries dictate structure, not file size.
+
 **Best Practice Example: Modular Feature Organization**
 
 The `modules/neovim/` directory demonstrates excellent modular structure for
@@ -291,7 +350,7 @@ in {
 Use `flake.niflheim.*` for project-wide settings:
 
 ```nix
-# Define in modules/niflheim/+feature.nix or modules/niflheim/feature.nix
+# Define in modules/niflheim/{name}.nix
 options.flake.niflheim.feature = {
   setting = lib.mkOption { ... };
 };
@@ -302,8 +361,58 @@ config.flake.modules.nixos.something = {
 };
 ```
 
-**Note:** The `+` prefix in filenames is optional - it's a convention to
-indicate custom options, but not required by import-tree.
+### Rule 5a: Multi-Target Modules (Cross-Platform)
+
+For configuration that needs to work across both NixOS and Darwin, define both platform-specific modules in a single file:
+
+```nix
+# modules/nix.nix - Works on both NixOS and macOS
+{ inputs, ... }: {
+  # NixOS-specific configuration
+  flake.modules.nixos.nix = { pkgs, ... }: {
+    nix.settings = {
+      experimental-features = ["nix-command" "flakes"];
+      trusted-users = ["@wheel"];
+    };
+    nix.gc = {
+      automatic = true;
+      dates = "weekly";
+    };
+  };
+
+  # Darwin-specific configuration
+  flake.modules.darwin.nix = { pkgs, ... }: {
+    nix.settings = {
+      experimental-features = ["nix-command" "flakes"];
+      trusted-users = ["@admin"];
+    };
+    nix.gc = {
+      automatic = true;
+      interval.Day = 7;
+    };
+  };
+}
+```
+
+**When to use:**
+- Core system configuration needed on both platforms
+- Settings differ slightly between NixOS and Darwin
+- Want single source of truth for cross-platform feature
+- Common examples: nix settings, shell configuration, package management
+
+**Benefits:**
+- Single file maintains both variants
+- Easy to see platform differences
+- Reduces duplication
+- Clear cross-platform intent
+
+**Examples in codebase:**
+- `modules/nix.nix` - Nix daemon configuration for both platforms
+- `modules/nixos/zsh.nix` + `modules/darwin/zsh.nix` - Split approach (alternative pattern)
+
+**Pattern choice:**
+- **Single file (nix.nix):** When configs are similar with minor platform differences
+- **Separate files:** When platform configs are substantially different
 
 ### Rule 6: Hyprland Namespace Pattern
 
@@ -357,6 +466,80 @@ modules/hyprland/
 
 All modules extend `flake.modules.homeManager.hyprland`, creating unified
 configuration.
+
+### Rule 6a: Namespace Aggregation Pattern (Emergent)
+
+**An emergent pattern observed in the codebase:** Multiple separate files can target the same module namespace, and flake-parts automatically merges them into a unified configuration.
+
+**How it works:**
+
+When multiple `.nix` files in a directory declare the same `flake.modules.{type}.{name}`, flake-parts' NixOS module system automatically merges all declarations:
+
+```nix
+# modules/utilities/git.nix
+_: {
+  flake.modules.homeManager.utilities = {
+    programs.git.enable = true;
+    # ... git config
+  };
+}
+
+# modules/utilities/tmux.nix
+_: {
+  flake.modules.homeManager.utilities = {
+    programs.tmux.enable = true;
+    # ... tmux config
+  };
+}
+
+# modules/utilities/bat.nix
+_: {
+  flake.modules.homeManager.utilities = {
+    programs.bat.enable = true;
+    # ... bat config
+  };
+}
+
+# Result: All 24 utilities/* files merge into single unified module
+# No aggregator file needed - import-tree loads all, flake-parts merges them
+```
+
+**Real-world examples:**
+
+1. **utilities/** (24 files) - CLI tools all targeting `flake.modules.homeManager.utilities`
+2. **media/** (9 files) - Media services all targeting `flake.modules.nixos.media`
+3. **hyprland/** (11 files) - Desktop components all targeting `flake.modules.homeManager.hyprland`
+
+**Benefits:**
+- No aggregator file needed - just create files in directory
+- Related functionality grouped by directory location
+- Individual files remain focused and maintainable
+- Easy to add new tools - just create new file in directory
+- Automatic composition via flake-parts merging
+
+**When to use:**
+- Logically related but independent concerns (CLI tools, media services)
+- Each file configures one distinct tool/service
+- Want directory structure to mirror functional grouping
+- Prefer automatic composition over explicit imports
+
+**Contrast with subdirectory pattern:**
+
+```nix
+# Alternative: Subdirectory with main module
+modules/hyprland/
+├── hyprland.nix          # Main module imports others
+├── waybar/waybar.nix     # Separate module
+└── walker/walker.nix     # Separate module
+
+# vs. Namespace aggregation
+modules/media/
+├── jellyfin.nix          # All target flake.modules.nixos.media
+├── radarr.nix
+└── sonarr.nix
+```
+
+**Important:** This is an emergent pattern - not prescribed by dendritic architecture but enabled by flake-parts' module merging. Use when it simplifies organization.
 
 ### Rule 7: Module Coupling Patterns
 
@@ -607,6 +790,232 @@ in {
 - **Flexible composition** - Mix and match modules as needed per host
 - **Easy to understand** - One-to-one mapping between imports and functionality
 
+---
+
+## Host Configuration Patterns
+
+Three distinct patterns exist for configuring hosts, each suited to different scenarios:
+
+### Pattern A: Standard NixOS (freya, thor)
+
+**When to use:** Standard NixOS systems, most flexible and maintainable.
+
+```nix
+# modules/hosts/freya/freya.nix
+{ inputs, ... }: let
+  inherit (inputs.self.niflheim.user) username;
+in {
+  # Define both nixos and homeManager modules
+  flake.modules.nixos.freya = {
+    imports = with inputs.self.modules.nixos; [
+      wireless zsh greetd audio hyprland bluetooth gaming
+    ];
+
+    # Host-specific nixos config
+    boot.loader.systemd-boot.enable = true;
+    networking.hostName = "freya";
+  };
+
+  flake.modules.homeManager.freya = {
+    imports = with inputs.self.modules.homeManager; [
+      starship utilities neovim obsidian spicetify python
+    ];
+
+    # Host-specific home-manager config
+    programs.firefox.enable = true;
+  };
+}
+
+# Registered in modules/hosts/configurations.nix
+flake.nixosConfigurations = {
+  freya = nixosSystem "x86_64-linux" "freya";
+};
+```
+
+**Characteristics:**
+- Defines both `flake.modules.nixos.{hostname}` and `flake.modules.homeManager.{hostname}`
+- Uses helper function from `modules/lib/hosts.nix`
+- Registered in `modules/hosts/configurations.nix`
+- Maximum flexibility for imports and configuration
+
+### Pattern B: Custom System Construction (loki, Raspberry Pi)
+
+**When to use:** Hardware with special requirements (Raspberry Pi, ARM boards).
+
+```nix
+# modules/hosts/loki/loki.nix
+{ inputs, ... }: {
+  # Directly construct nixosConfigurations (not using helper)
+  flake.nixosConfigurations.loki = inputs.nixos-raspberrypi.lib.nixosSystem {
+    specialArgs = inputs;
+    modules = [
+      {
+        imports = with inputs.nixos-raspberrypi.nixosModules;
+          [raspberry-pi-5.base ...]
+          ++ [inputs.srvos.nixosModules.common]
+          ++ (with inputs.self.modules.nixos; [
+            common loki wireless
+          ]);
+      }
+    ];
+  };
+
+  # Separate module definition for configs
+  flake.modules.nixos.loki = {
+    networking.hostName = "loki";
+    # ... loki-specific config
+  };
+}
+```
+
+**Characteristics:**
+- Bypasses standard helper functions
+- Directly constructs `flake.nixosConfigurations.{hostname}`
+- Allows custom `nixosSystem` function (from specialized flakes)
+- Still defines `flake.modules.nixos.{hostname}` for configuration
+- More manual but handles special hardware
+
+### Pattern C: Darwin/macOS (odin)
+
+**When to use:** macOS systems with nix-darwin.
+
+```nix
+# modules/hosts/odin/odin.nix
+{ inputs, ... }: {
+  flake.modules.darwin.odin = {
+    imports = with inputs.self.modules.darwin; [
+      darwin yabai
+    ];
+
+    # macOS-specific system config
+    system.stateVersion = 4;
+  };
+
+  flake.modules.homeManager.odin = {
+    imports = with inputs.self.modules.homeManager; [
+      utilities zsh starship neovim
+    ];
+  };
+}
+
+# Registered in modules/hosts/configurations.nix
+flake.darwinConfigurations = {
+  odin = darwinSystem "x86_64-darwin" "odin";
+};
+```
+
+**Characteristics:**
+- Uses `flake.modules.darwin.{hostname}` instead of nixos
+- Uses `darwinSystem` helper from `modules/lib/hosts.nix`
+- Shares cross-platform homeManager modules
+- Platform-specific modules in `modules/darwin/`
+
+### Pattern Comparison
+
+| Aspect | Pattern A (Standard) | Pattern B (Custom) | Pattern C (Darwin) |
+|--------|---------------------|-------------------|-------------------|
+| **Platform** | NixOS | NixOS (special hw) | macOS |
+| **Registration** | configurations.nix | Direct in module | configurations.nix |
+| **System module** | `modules.nixos.*` | `modules.nixos.*` | `modules.darwin.*` |
+| **Helper function** | `nixosSystem` | Custom from flake | `darwinSystem` |
+| **Flexibility** | High | Maximum | High |
+| **Maintenance** | Easy | Manual | Easy |
+
+### Recommended Practice
+
+**TODO:** Long-term goal is to standardize on **Pattern A** (freya/thor approach) for all standard NixOS systems. Pattern B should only be used when hardware absolutely requires custom system construction.
+
+**Current usage:**
+- **Pattern A:** freya (desktop), thor (server)
+- **Pattern B:** loki (Raspberry Pi 5)
+- **Pattern C:** odin (macOS)
+
+---
+
+## Baseline Configuration (common.nix)
+
+All NixOS systems automatically include a baseline set of modules via `modules/common.nix`, applied through the `nixosSystem` helper function.
+
+### How It Works
+
+```nix
+# modules/common.nix - Baseline modules for all NixOS systems
+{ inputs, ... }: {
+  flake.modules.nixos.common = {
+    imports = with inputs.self.modules.nixos; [
+      inputs.disko.nixosModules.disko
+      inputs.agenix.nixosModules.default
+      avahi
+      capslock
+      docker
+      home-manager
+      locale
+      nix
+      tailscale
+      user
+    ];
+  };
+}
+
+# modules/lib/hosts.nix - Helper automatically includes common
+nixosSystem = system: hostname: lib.nixosSystem {
+  inherit system;
+  modules = [
+    inputs.self.modules.nixos.common  # Auto-applied baseline
+    inputs.self.modules.nixos.${hostname}
+    # ... other config
+  ];
+};
+```
+
+### Baseline Modules
+
+Every NixOS system automatically gets:
+
+| Module | Purpose |
+|--------|---------|
+| `disko` | Declarative disk partitioning |
+| `agenix` | Secrets management |
+| `avahi` | mDNS/DNS-SD service discovery |
+| `capslock` | Caps Lock → Escape remapping |
+| `docker` | Container runtime |
+| `home-manager` | User environment management |
+| `locale` | Timezone and localization |
+| `nix` | Nix daemon configuration |
+| `tailscale` | Mesh VPN |
+| `user` | User account setup |
+
+### Benefits
+
+- **Consistency:** All NixOS systems share common foundation
+- **DRY:** Define baseline once, apply everywhere
+- **No repetition:** Hosts don't repeat common imports
+- **Clear separation:** Baseline vs host-specific clearly distinguished
+
+### Host-Specific Configuration
+
+Hosts only import what's unique to them:
+
+```nix
+# modules/hosts/freya/freya.nix - Only freya-specific imports
+flake.modules.nixos.freya = {
+  imports = with inputs.self.modules.nixos; [
+    wireless  # Laptop-specific
+    greetd    # Desktop-specific
+    audio
+    hyprland
+    bluetooth
+    gaming
+  ];
+};
+```
+
+### Note on Darwin
+
+Darwin systems don't use `common.nix` - they import from scratch. Consider creating `modules/common-darwin.nix` if baseline Darwin modules are needed.
+
+---
+
 ### Rule 9: Centralized Registry Pattern
 
 For shared configuration that multiple modules need to reference, use centralized registry pattern:
@@ -722,29 +1131,63 @@ For distributed systems where some components run centrally and others run on sp
 
 ### Rule 11: Underscore Prefix Pattern
 
-Files with `_` prefix are git-tracked but excluded from import-tree auto-loading:
+Files with `_` prefix are git-tracked but excluded from import-tree auto-loading.
+
+**Two primary use cases:**
+
+**Use Case 1: Generated Hardware Configurations**
+Hardware configs generated by `nixos-generate-config` that should be version-controlled but not auto-loaded:
 
 ```nix
-# modules/hosts/thor/_hardware.nix - Tracked but not auto-loaded
-{ config, lib, pkgs, ... }: {
-  # Host-specific hardware config
+# modules/hosts/thor/_hardware.nix - Generated by nixos-generate-config
+# Do not modify this file! It was generated by 'nixos-generate-config'
+{ config, lib, modulesPath, ... }: {
+  imports = [(modulesPath + "/installer/scan/not-detected.nix")];
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" ];
   # ... more hardware settings
 }
+```
 
-# modules/hosts/thor/thor.nix - Explicit import required
+**Use Case 2: Services with Side Effects**
+Host-specific services that enable network services, open ports, or have security implications:
+
+```nix
+# modules/hosts/thor/_nfs.nix - NFS server with firewall rules
+{ inputs, ... }: {
+  flake.modules.nixos.thor = {
+    services.nfs.server.enable = true;
+    networking.firewall.allowedTCPPorts = [ 2049 ];
+    # ... more NFS config
+  };
+}
+
+# modules/hosts/thor/_samba.nix - Samba server with shares
+{ inputs, ... }: {
+  flake.modules.nixos.thor = {
+    services.samba.enable = true;
+    networking.firewall.allowedTCPPorts = [ 139 445 ];
+    # ... more Samba config
+  };
+}
+```
+
+**Explicit import required:**
+
+```nix
+# modules/hosts/thor/thor.nix
 { inputs, ... }: {
   flake.modules.nixos.thor = {
     imports = [
-      ./_hardware.nix  # Must explicitly import underscore-prefixed files
-      ./_nfs.nix
-      ./_samba.nix
+      ./_hardware.nix  # Hardware config
+      ./_nfs.nix       # Opt-in for NFS
+      ./_samba.nix     # Opt-in for Samba
     ];
   };
 }
 ```
 
 **Use when:**
+- Generated hardware configs that would break other hosts
 - Host-specific config shouldn't auto-load on other hosts
 - Module has side effects (enables services, opens ports)
 - Explicit dependency declaration needed for safety

@@ -1,13 +1,9 @@
 _: {
-  flake.modules.nixos.nixos = {
-    # UK timezone - automatically handles GMT/BST transitions
+  flake.modules.nixos.locale = {
     time.timeZone = "Europe/London";
 
-    # UK English locale settings
     i18n = {
       defaultLocale = "en_GB.UTF-8";
-
-      # Specific locale settings with fallback to en_US.UTF-8 for compatibility
       extraLocaleSettings = {
         LC_ADDRESS = "en_GB.UTF-8";
         LC_IDENTIFICATION = "en_GB.UTF-8";
@@ -21,7 +17,6 @@ _: {
       };
     };
 
-    # UK keyboard layout for console (TTY)
     console.keyMap = "uk";
   };
 }

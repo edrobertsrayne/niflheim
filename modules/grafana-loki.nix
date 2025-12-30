@@ -1,7 +1,7 @@
 {inputs, ...}: let
   inherit (inputs.self.niflheim) ports;
 in {
-  flake.modules.nixos.loki = _: {
+  flake.modules.nixos.grafana-loki = _: {
     services.loki = {
       enable = true;
       dataDir = "/srv/loki";

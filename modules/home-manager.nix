@@ -16,7 +16,8 @@ in {
         home = {
           username = lib.mkDefault username;
           homeDirectory = lib.mkDefault "/home/${username}";
-          stateVersion = "25.05";
+          stateVersion = "${config.system.stateVersion}";
+          enableNixpkgsReleaseCheck = false;
         };
       };
     };

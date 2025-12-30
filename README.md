@@ -28,12 +28,12 @@ This configuration represents a ground-up rewrite focusing on:
 
 ## 💻 Current Hosts
 
-| Host      | Type    | Status     | Description                                            |
-| --------- | ------- | ---------- | ------------------------------------------------------ |
-| **freya** | Desktop | ✅ Active  | Main development workstation with Hyprland             |
-| **thor**  | Server  | ✅ Active  | Media server with monitoring and self-hosted services  |
-| **imac**  | Desktop | ✅ Active  | macOS workstation with Yabai window manager            |
-| **loki**  | Server  | 🗑️ Retired | Decommissioned                                         |
+| Host      | Type    | Status    | Description                                            |
+| --------- | ------- | --------- | ------------------------------------------------------ |
+| **freya** | Desktop | ✅ Active | Main development workstation with Hyprland             |
+| **thor**  | Server  | ✅ Active | Media server with monitoring and self-hosted services  |
+| **odin**  | Desktop | ✅ Active | macOS workstation with Yabai window manager            |
+| **loki**  | Server  | ✅ Active | Raspberry Pi 5 server                                  |
 
 ---
 
