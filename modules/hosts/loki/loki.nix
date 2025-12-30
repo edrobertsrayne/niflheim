@@ -3,15 +3,14 @@
     specialArgs = inputs;
     modules = [
       {
-        imports = with inputs.self.modules.nixos; [
-          loki
-        ];
+        imports = with inputs.self.modules.nixos; [loki];
       }
     ];
   };
 
   flake.modules.nixos.loki = {pkgs, ...}: {
     imports = with inputs.self.modules.nixos; [
+      inputs.srvos.nixosModules.desktop
       common
       wireless
       rpi5

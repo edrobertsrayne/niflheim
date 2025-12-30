@@ -3,7 +3,6 @@
     imports = with inputs.self.modules.nixos; [
       inputs.disko.nixosModules.disko
       inputs.agenix.nixosModules.default
-      inputs.srvos.nixosModules.common
 
       avahi
       capslock

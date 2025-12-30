@@ -15,6 +15,8 @@ in {
         ...
       }: {
         imports = with inputs.self.modules.nixos; [
+          inputs.srvos.nixosModules.server
+
           ./_hardware.nix
           networking
 

@@ -9,6 +9,7 @@ in {
       imports =
         [
           inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+          inputs.srvos.nixosModules.desktop
         ]
         ++ (with inputs.self.modules.nixos; [
           wireless
