@@ -7,7 +7,7 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJdf/364Rgul97UR6vn4caDuuxBk9fUrRjfpMsa4sfam ed@freya"
   ];
 in {
-  flake.modules.nixos.user = {pkgs, ...}: {
+  flake.modules.nixos.user = {
     users = {
       mutableUsers = false;
       users.${user.username} = {
@@ -16,11 +16,6 @@ in {
         inherit initialHashedPassword;
         extraGroups = ["wheel" "networkmanager" "video"];
         openssh.authorizedKeys = {inherit keys;};
-        packages = with pkgs; [
-          vim
-          git
-          htop
-        ];
       };
 
       users.root = {

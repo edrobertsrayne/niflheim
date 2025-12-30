@@ -11,9 +11,9 @@
           inputs.self.modules.nixos.common
           (inputs.self.modules.nixos.${name} or {})
           {
-            networking.hostId = lib.mkDefault (builtins.substring 0 8 (
+            networking.hostId = builtins.substring 0 8 (
               builtins.hashString "sha256" "${name}"
-            ));
+            );
             networking.hostName = lib.mkDefault name;
             nixpkgs.hostPlatform = lib.mkDefault system;
           }
