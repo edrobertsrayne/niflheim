@@ -15,10 +15,8 @@ in {
         ...
       }: {
         imports = with inputs.self.modules.nixos; [
-          inputs.srvos.nixosModules.server
-
+          inputs.srvos.nixosModules.common
           ./_hardware.nix
-          networking
 
           nginx
           portainer

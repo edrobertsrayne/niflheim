@@ -14,6 +14,11 @@
       user
     ];
 
+    networking.firewall = {
+      enable = true;
+      allowPing = true;
+    };
+
     security.polkit.enable = true;
 
     services.openssh.enable = true;
