@@ -9,7 +9,6 @@
             raspberry-pi-5.page-size-16k
             raspberry-pi-5.display-vc4
             raspberry-pi-5.bluetooth
-            sd-image
           ]
           ++ [
             inputs.srvos.nixosModules.common
@@ -34,7 +33,7 @@
       config.boot.kernelPackages.kernel.version
     ];
 
-    system.stateVersion = "25.05";
+    boot.loader.raspberryPi.bootloader = "kernel";
 
     services = {
       tailscale = {
