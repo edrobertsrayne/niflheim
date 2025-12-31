@@ -47,6 +47,7 @@ Follow four phases with explicit checkpoints. Do not skip.
 
 ### Phase 2: PLAN (Design-Only)
 
+- Check TODO.md for context; add new items as `docs(todo)` commit
 - Create task list with TodoWrite (required)
 - Propose implementation approach
 - Identify modules needing changes
@@ -261,3 +262,4 @@ See [commit-guide.md](docs/reference/commit-guide.md) for details.
 10. Ask questions vs making assumptions
 11. Be concise - sacrifice grammar for brevity
 12. List unresolved questions at end of plans
+13. Check/update TODO.md during planning; commit as `docs(todo)` separately
