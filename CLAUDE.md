@@ -13,6 +13,11 @@ Follow workflow and rules below.
    implementation
 3. **Git Add Immediately**: After creating `.nix` files, run
    `git add path/to/file.nix` - import-tree only loads tracked files
+   **Why:** Untracked files cause "option defined multiple times" errors:
+   - Create `modules/feature.nix` defining `flake.modules.nixos.feature`
+   - Forget `git add` → import-tree doesn't see it (only loads tracked files)
+   - NixOS auto-generates the option
+   - Conflict: auto-generated + your definition = duplicate error
 4. **Wait for Approval**: Do not start CODE phase without explicit user approval
 5. **All Checks Must Pass**: Do not commit until alejandra, statix, and deadnix
    pass
@@ -23,8 +28,6 @@ Follow workflow and rules below.
 8. **Use Context7 Proactively**: Automatically fetch library docs when
    implementing features using external libraries/frameworks. Don't wait for
    user request.
-
-**When stuck:** See [troubleshooting.md](docs/reference/troubleshooting.md).
 
 ---
 
@@ -74,9 +77,6 @@ look good? Should I proceed to implementation?"
 
 **Do not create commits. Do not deviate from plan without asking.**
 
-**CRITICAL:** New `.nix` files not git-added cause flake evaluation failures.
-See [troubleshooting.md](docs/reference/troubleshooting.md#import-tree-issues).
-
 **STOP:** Run quality checks (Phase 4).
 
 ---
@@ -95,12 +95,12 @@ nix flake check --impure  # Build (if applicable)
 **Steps:**
 
 1. Run checks
-2. Fix issues (see [troubleshooting.md](docs/reference/troubleshooting.md))
+2. Fix issues (see Quality Requirements section)
 3. Present changes summary
 4. Create commit after user confirmation
 
 **Use Conventional Commits: `<type>(<aspect>): <description>`** **Use aspect
-name as scope (see [commit-guide.md](docs/reference/commit-guide.md))**
+name as scope**
 
 **Do not commit until all checks pass and user confirms.**
 
@@ -122,8 +122,6 @@ name as scope (see [commit-guide.md](docs/reference/commit-guide.md))**
 
 **Naming:** Use aspect/purpose names (`ssh.nix`, `development-tools.nix`), not
 host names.
-
-See [architecture.md](docs/reference/architecture.md) for details.
 
 ---
 
@@ -167,7 +165,11 @@ deadnix --fail .
 nix flake check --impure  # when modifying system config
 ```
 
-See [troubleshooting.md](docs/reference/troubleshooting.md) if checks fail.
+**If checks fail:**
+- `alejandra --check .` → Run `alejandra .` (auto-fixes)
+- `statix check .` → Read error, fix at line:col shown, try `statix fix .`
+- `deadnix --fail .` → Remove unused variables from function signatures
+- `nix flake check` → Usually import-tree issue, check if files git-added
 
 ---
 
@@ -184,13 +186,16 @@ See [troubleshooting.md](docs/reference/troubleshooting.md) if checks fail.
 - `fix(hyprland): correct keybind for workspace switching`
 - `refactor(desktop): reorganize aggregator imports`
 
-See [commit-guide.md](docs/reference/commit-guide.md) for details.
+**Commit granularity:** One commit per logical change. Split only when:
+- Multiple independent features
+- Refactor + new feature (refactor first, then feature)
+- User explicitly requests separate commits
 
 ---
 
 ## Anti-Patterns
 
-**Avoid (see [anti-patterns.md](docs/reference/anti-patterns.md)):**
+**Avoid:**
 
 - ✗ Host-centric organization → Use aspect modules
 - ✗ Package-centric modules → Group by purpose, only create modules with
@@ -223,16 +228,6 @@ See [commit-guide.md](docs/reference/commit-guide.md) for details.
 - `{aspect}.nix` - Single-file aspect (`ssh.nix`)
 - `{feature}/` - Multi-file feature (`nixvim/`)
 - `+{option}.nix` - Project option (`+user.nix`)
-
----
-
-## Additional Reference
-
-**Planning:** [architecture.md](docs/reference/architecture.md),
-[module-templates.md](docs/reference/module-templates.md) **Commit:**
-[commit-guide.md](docs/reference/commit-guide.md) **Errors:**
-[troubleshooting.md](docs/reference/troubleshooting.md) **Unsure:**
-[anti-patterns.md](docs/reference/anti-patterns.md)
 
 ---
 
