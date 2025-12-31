@@ -339,5 +339,5 @@ workflow and aesthetic design
 
 - **Hyprland Wiki**: <https://wiki.hyprland.org>
 - **Omarchy Manual**: <https://learn.omacom.io/2/the-omarchy-manual>
-- **Project Documentation**: See `docs/reference/` for architecture and
+- **Project Documentation**: See `CLAUDE.md for workflow and development guidelines
   development guides

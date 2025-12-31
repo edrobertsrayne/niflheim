@@ -188,18 +188,6 @@ nixos-rebuild switch --flake github:edrobertsrayne/niflheim#thor \
 - [Neovim Cheatsheet](docs/NEOVIM_CHEATSHEET.md) - Editor shortcuts and features
 - [Tmux Cheatsheet](docs/TMUX_CHEATSHEET.md) - Terminal multiplexer shortcuts
 
-### Reference Documentation
-
-- [Architecture](docs/reference/architecture.md) - Project structure and
-  dendritic principles
-- [Module Templates](docs/reference/module-templates.md) - Code templates for
-  new modules
-- [Anti-Patterns](docs/reference/anti-patterns.md) - Common mistakes to avoid
-- [Commit Guide](docs/reference/commit-guide.md) - Conventional commits with
-  examples
-- [Troubleshooting](docs/reference/troubleshooting.md) - Error recovery and
-  debugging
-
 ### AI Agent Guidelines
 
 - [CLAUDE.md](CLAUDE.md) - Workflow and rules for AI-assisted development

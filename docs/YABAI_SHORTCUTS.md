@@ -472,7 +472,7 @@ tail -f ~/Library/Logs/skhd/skhd.out.log
 - **macOS Spaces Guide**: <https://support.apple.com/guide/mac-help/work-in-multiple-spaces-mh14112/>
 - **SIP Guide**: <https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection>
 - **Raycast**: <https://www.raycast.com>
-- **Project Documentation**: See `docs/reference/` for architecture and development guides
+- **Project Documentation**: See `CLAUDE.md for workflow and development guidelines
 
 ---
 

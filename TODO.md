@@ -19,8 +19,9 @@
 - [ ] Remove python / bun aspects and add defaults to neovim config
 - [ ] Switch ghostty transparency from hyprland to ghostty config -
 - [ ] Use nix-colors to provide non-matugen colour themes (terminal, cava, etc)
-- [ ] Streamline project documentation to just the bare essentials
 
 ## In Progress
 
 ## Done
+
+- [x] Streamline project documentation to just the bare essentials

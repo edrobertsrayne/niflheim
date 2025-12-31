@@ -31,12 +31,9 @@ You are tasked with reviewing and updating project documentation to ensure it re
 
 4. **Review each documentation file systematically:**
    - `README.md` - Project overview and structure
-   - `docs/reference/architecture.md` - Architecture documentation
-   - `docs/reference/module-templates.md` - Module templates and examples
-   - `docs/reference/anti-patterns.md` - Anti-patterns to avoid
-   - `docs/reference/commit-guide.md` - Commit message guidelines
-   - `docs/reference/troubleshooting.md` - Troubleshooting guide
-   - Any other docs in the `docs/` directory
+   - `CLAUDE.md` - AI agent workflow and guidelines
+   - `TODO.md` - Project task tracking
+   - Any shortcut/cheatsheet docs in the `docs/` directory
 
 5. **Update documentation as needed:**
    - Fix outdated paths and references

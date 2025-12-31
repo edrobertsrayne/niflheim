@@ -228,7 +228,7 @@ Ctrl+,                  Cmd+,                   Open config
 ## Additional Resources
 
 - **Ghostty Documentation**: Official documentation and keybind reference
-- **Project Documentation**: See `docs/reference/` for architecture guides
+- **Project Documentation**: See `CLAUDE.md for workflow guidelines
 - **Related Shortcuts**:
   - `docs/TMUX_CHEATSHEET.md` - Terminal multiplexer inside ghostty
   - `docs/NEOVIM_CHEATSHEET.md` - Editor shortcuts
