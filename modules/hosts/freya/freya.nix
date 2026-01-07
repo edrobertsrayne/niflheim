@@ -19,10 +19,12 @@ in {
       ]);
 
     boot = {
-      loader.grub = {
-        enable = true;
-        efiSupport = true;
-        efiInstallAsRemovable = true;
+      loader = {
+        systemd-boot.enable = true;
+        efi = {
+          canTouchEfiVariables = true;
+          efiSysMountPoint = "/boot";
+        };
       };
       binfmt.emulatedSystems = ["aarch64-linux"];
     };
