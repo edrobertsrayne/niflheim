@@ -3,6 +3,7 @@
     imports = with inputs.self.modules.nixos; [
       avahi
       nix
+      ssh
     ];
   };
 }
