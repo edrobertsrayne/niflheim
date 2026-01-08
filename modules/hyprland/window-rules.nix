@@ -16,9 +16,6 @@ _: {
         "match:tag chromium-based-browser, opacity 1 0.85"
         "match:tag firefox-based-browser, opacity 1 0.85"
 
-        # Terminal opacity
-        "match:tag terminal, opacity 0.6"
-
         # Floating window tag system
         "match:tag floating-window, float on"
         "match:tag floating-window, center on"
