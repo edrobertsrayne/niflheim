@@ -3,53 +3,52 @@ _: {
     wayland.windowManager.hyprland.settings = {
       # Terminal tagging
       windowrule = [
-        "tag +terminal, class:(Alacritty|kitty|com.mitchellh.ghostty)"
+        "match:class (Alacritty|kitty|com.mitchellh.ghostty), tag +terminal"
 
         # Browser tagging
-        "tag +chromium-based-browser, class:(Google-chrome|Chromium|Brave-browser|Microsoft-edge|vivaldi|Helium)"
-        "tag +firefox-based-browser, class:(firefox|zen-alpha|LibreWolf)"
+        "match:class (Google-chrome|Chromium|Brave-browser|Microsoft-edge|vivaldi|Helium), tag +chromium-based-browser"
+        "match:class (firefox|zen-alpha|LibreWolf), tag +firefox-based-browser"
 
         # Tiling for chromium browsers (fixes --app flag bug)
-        "tile, tag:chromium-based-browser"
+        "match:tag chromium-based-browser, tile on"
 
         # Browser opacity
-        "opacity 1 0.85, tag:chromium-based-browser"
-        "opacity 1 0.85, tag:firefox-based-browser"
+        "match:tag chromium-based-browser, opacity 1 0.85"
+        "match:tag firefox-based-browser, opacity 1 0.85"
 
         # Terminal opacity
-        "opacity 0.6, tag:terminal"
+        "match:tag terminal, opacity 0.6"
 
         # Floating window tag system
-        "float, tag:floating-window"
-        "center, tag:floating-window"
-        "size 900 625, tag:floating-window"
+        "match:tag floating-window, float on"
+        "match:tag floating-window, center on"
+        "match:tag floating-window, size 900 625"
 
         # Auto-tag floating windows
-        "tag +floating-window, class:(blueberry.py|Impala|Wiremix|org.gnome.NautilusPreviewer|com.gabm.satty|com.niflheim.niflheim|About|TUI.float|waypaper|org.gnome.Nautilus)"
-        "tag +floating-window, class:(xdg-desktop-portal-gtk|sublime_text|DesktopEditors|org.gnome.Nautilus), title:^(Open.*Files?|Open [F|f]older.*|Save.*Files?|Save.*As|Save|All Files)"
+        "match:class (blueberry.py|Impala|Wiremix|org.gnome.NautilusPreviewer|com.gabm.satty|com.niflheim.niflheim|About|TUI.float|waypaper|org.gnome.Nautilus), tag +floating-window"
+        "match:class (xdg-desktop-portal-gtk|sublime_text|DesktopEditors|org.gnome.Nautilus) match:title ^(Open.*Files?|Open [F|f]older.*|Save.*Files?|Save.*As|Save|All Files), tag +floating-window"
 
         # Calculator
-        "float, class:org.gnome.Calculator"
+        "match:class org.gnome.Calculator, float on"
 
         # Media applications (no transparency for video quality)
-        "opacity 1 1, class:^(zoom|vlc|mpv|org.kde.kdenlive|com.obsproject.Studio|com.github.PintaProject.Pinta|imv|org.gnome.NautilusPreviewer)$"
-      ];
+        "match:class ^(zoom|vlc|mpv|org.kde.kdenlive|com.obsproject.Studio|com.github.PintaProject.Pinta|imv|org.gnome.NautilusPreviewer)$, opacity 1 1"
 
-      windowrulev2 = [
         # Video site opacity exceptions (full opacity for video quality)
-        "opacity 1.0 1.0,initialTitle:((?i)(?:[a-z0-9-]+\\.)*youtube\\.com_/|app\\.zoom\\.us_/wc/home)"
+        "match:initial_title ((?i)(?:[a-z0-9-]+\\.)*youtube\\.com_/|app\\.zoom\\.us_/wc/home), opacity 1.0 1.0"
 
         # System utilities
-        "float,class:^(cliphist)$"
-        "float,class:^(hyprpolkitagent)$"
-        "float,class:^(gcr-prompter)$"
-        "float,title:^(Picture-in-Picture)$"
-        "pin,title:^(Picture-in-Picture)$"
+        "match:class ^(cliphist)$, float on"
+        "match:class ^(hyprpolkitagent)$, float on"
+        "match:class ^(gcr-prompter)$, float on"
+
+        # Picture-in-Picture
+        "match:title ^(Picture-in-Picture)$, float on, pin on"
       ];
 
       # Layer rules
       layerrule = [
-        "noanim, walker"
+        "no_anim 1, match:namespace walker"
       ];
     };
   };

@@ -23,7 +23,7 @@
         "SUPER SHIFT, S, Spotify, exec, spotify"
       ];
       windowrule = [
-        "workspace name:spotify, class:spotify"
+        "match:class spotify, workspace name:spotify"
       ];
     };
   };
