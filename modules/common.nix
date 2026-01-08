@@ -4,6 +4,7 @@
       avahi
       nix
       ssh
+      user
     ];
   };
 }
