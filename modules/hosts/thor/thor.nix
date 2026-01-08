@@ -12,6 +12,7 @@
       imports = with inputs.self.modules.nixos; [
         ./_hardware.nix
 
+        common
         nginx
         portainer
         blocky
