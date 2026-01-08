@@ -8,7 +8,7 @@
       inputs.nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-          inputs.self.modules.nixos.nixos
+          inputs.self.modules.nixos.home-manager
           (inputs.self.modules.nixos.${name} or {})
           {
             networking.hostId = lib.mkDefault (builtins.substring 0 8 (

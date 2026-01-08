@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.nixos = {
+  flake.modules.nixos.locale = {
     # UK timezone - automatically handles GMT/BST transitions
     time.timeZone = "Europe/London";
 

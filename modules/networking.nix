@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.nixos = {
+  flake.modules.nixos.networking = {
     networking = {
       networkmanager.enable = true;
       firewall = {
