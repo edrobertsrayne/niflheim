@@ -1,14 +1,17 @@
 {inputs, ...}: let
   inherit (inputs.self.niflheim.user) username;
 in {
-  flake.modules.nixos.nixos = {
+  flake.modules.nixos.nix = {
+    lib,
+    config,
+    ...
+  }: {
     nix = {
       enable = true;
       settings = {
         experimental-features = ["nix-command" "flakes"];
-        auto-optimise-store = true;
         warn-dirty = false;
-        trusted-users = ["root" "${username}"];
+        trusted-users = ["root" "${username}" "@wheel"];
         substituters = [
           "https://cache.nixos.org"
           "https://nix-community.cachix.org"
@@ -35,7 +38,10 @@ in {
         dates = "weekly";
         options = "--delete-older-than 7d";
       };
+
+      optimise.automatic = lib.mkDefault (!config.boot.isContainer);
     };
+
     system.autoUpgrade = {
       enable = true;
       flake = "github:edrobertsrayne/niflheim";
