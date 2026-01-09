@@ -1,9 +1,16 @@
 _: {
   flake.modules.homeManager.hyprland = {pkgs, ...}: {
     services.hyprpaper.enable = true;
-    home.packages = with pkgs; [
-      waypaper
-      hyprpaper
+    home.packages = [
+      (pkgs.waypaper.overrideAttrs (old: {
+        src = pkgs.fetchFromGitHub {
+          owner = "anufrievroman";
+          repo = "waypaper";
+          rev = "622c978f4ae099866d29033aad8248aaa9458d9b";
+          hash = "sha256-BtWdi8c3x7EafxEsGL7+jbXQWtSxYq7pJsNW+XwcUVc=";
+        };
+      }))
+      pkgs.hyprpaper
     ];
 
     xdg.configFile."waypaper/config.ini".text = ''
