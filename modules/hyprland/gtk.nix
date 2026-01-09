@@ -1,24 +1,23 @@
 _: {
-  flake.modules.homeManager.hyprland = {
-    pkgs,
-    config,
-    ...
-  }: {
-    gtk = {
-      enable = true;
-      # font.name = fonts.sans.name;
-      theme = {
-        package = pkgs.adw-gtk3;
-        name = "adw-gtk3"; # Use LIGHT theme, redefine colors in gtk.css
-      };
-      iconTheme = {
-        package = pkgs.papirus-icon-theme;
-        name = "Papirus-Dark";
-      };
+  flake.modules.homeManager.hyprland = {pkgs, ...}: let
+    settings = ''
+      [Settings]
+      gtk-theme-name=adw-gtk3
+      gtk-icon-theme-name=Papirus-Dark
+      gtk-font-name=Adwaita Sans 11
+      gtk-cursor-theme-name=Bibata-Modern-Classic
+      gtk-cursor-theme-size=24
+    '';
+  in {
+    home.packages = with pkgs; [
+      adw-gtk3
+      bibata-cursors
+      papirus-folders
+      papirus-icon-theme
+    ];
+    xdg.configFile = {
+      "gtk-3.0/settings.ini".text = settings;
+      "gtk-4.0/settings.ini".text = settings;
     };
-
-    # Matugen-generated gtk.css with Material Design colors
-    xdg.configFile."gtk-3.0/gtk.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.local/share/matugen/gtk3.css";
-    xdg.configFile."gtk-4.0/gtk.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.local/share/matugen/gtk4.css";
   };
 }

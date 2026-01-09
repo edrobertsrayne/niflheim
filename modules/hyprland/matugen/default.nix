@@ -32,11 +32,11 @@
 
         [templates.gtk3]
         input_path = '${config.xdg.dataHome}/matugen/gtk.css'
-        output_path = '${config.xdg.dataHome}/matugen/gtk3.css'
+        output_path = '${config.xdg.configHome}/gtk-3.0/gtk.css'
 
         [templates.gtk4]
         input_path = '${config.xdg.dataHome}/matugen/gtk.css'
-        output_path = '${config.xdg.dataHome}/matugen/gtk4.css'
+        output_path = '${config.xdg.configHome}/gtk-4.0/gtk.css'
 
         [templates.ghostty]
         input_path = '${config.xdg.dataHome}/matugen/ghostty'
