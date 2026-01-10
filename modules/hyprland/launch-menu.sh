@@ -88,7 +88,7 @@ go_to_menu() {
   *rebuild*) terminal_present "nh os switch" ;;
   *clean*) terminal_present "nh clean all" ;;
   *about*) xdg-terminal-exec --app-id=com.niflheim.niflheim -e bash -c 'fastfetch; read -n 1 -s' ;;
-  *system*) show_system_menu ;;
+  *system*) wlogout ;;
   esac
 }
 

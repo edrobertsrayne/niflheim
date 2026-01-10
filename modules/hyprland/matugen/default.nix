@@ -38,6 +38,10 @@
         input_path = '${config.xdg.dataHome}/matugen/gtk.css'
         output_path = '${config.xdg.configHome}/gtk-4.0/gtk.css'
 
+        [templates.wlogout]
+        input_path = '${config.xdg.dataHome}/matugen/wlogout.css'
+        output_path = '${config.xdg.configHome}/wlogout/colors.css'
+
         [templates.ghostty]
         input_path = '${config.xdg.dataHome}/matugen/ghostty'
         output_path = '${config.xdg.configHome}/ghostty/themes/matugen'
@@ -62,6 +66,15 @@
           <* for name, value in colors *>
             @define-color {{name}} {{value.default.hex}};
           <* endfor *>
+        '';
+        "matugen/wlogout.css".text = ''
+          @define-color surface_dim {{colors.surface_dim.default.rgba | set_alpha: 0.60}};
+          @define-color on_surface {{colors.on_surface.default.rgba}};
+          @define-color surface_container_low {{colors.surface_container_low.default.rgba | set_alpha: 0.70}};
+          @define-color primary {{colors.primary.default.rgba | set_alpha: 0.80}};
+          @define-color on_primary {{colors.on_primary.default.rgba}};
+          @define-color primary_container {{colors.primary_container.default.rgba | set_alpha: 0.90}};
+          @define-color on_primary_container {{colors.on_primary_container.default.rgba}};
         '';
         "matugen/gtk.css".text = builtins.readFile ./gtk.css.mustache;
         "matugen/ghostty".text = builtins.readFile ./ghostty.mustache;
