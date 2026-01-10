@@ -5,14 +5,28 @@ _: {
       statix
       deadnix
     ];
+
+    programs.ruff = {
+      enable = true;
+      settings = {
+        line-length = 100;
+        select = ["E" "F" "I"];
+      };
+    };
+
     programs.nvf = {
       settings = {
         vim = {
+          withPython3 = true;
           languages = {
             enableFormat = true;
             enableTreesitter = true;
             enableExtraDiagnostics = true;
             enableDAP = true;
+
+            css.enable = true;
+            bash.enable = true;
+            markdown.enable = true;
             nix = {
               enable = true;
               lsp = {
@@ -27,10 +41,17 @@ _: {
                 types = ["statix" "deadnix"];
               };
             };
-            markdown.enable = true;
-            python.enable = true;
-            css.enable = true;
-            bash.enable = true;
+            python = {
+              enable = true;
+              format = {
+                enable = true;
+                type = ["ruff"];
+              };
+              lsp = {
+                enable = true;
+                servers = ["pyright"];
+              };
+            };
             ts = {
               enable = true;
               lsp.enable = true;

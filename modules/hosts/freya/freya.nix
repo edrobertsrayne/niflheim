@@ -7,18 +7,16 @@ in {
         inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
       ]
       ++ (with inputs.self.modules.nixos; [
-        common
-        zsh
-        greetd
         audio
-        hyprland
         bluetooth
+        common
         gaming
-        networking
+        greetd
+        hyprland
         libvirt
-        python
-        bun
+        networking
         wireless
+        zsh
       ]);
 
     boot = {
@@ -33,6 +31,9 @@ in {
     };
 
     users.users.${username}.extraGroups = ["dialout"];
+
+    # enable uv for python development
+    programs.nix-ld.enable = true;
   };
 
   flake.modules.homeManager.freya = {pkgs, ...}: {
@@ -48,13 +49,11 @@ in {
     ];
 
     programs = {
+      chromium.enable = true;
       firefox.enable = true;
-      zathura.enable = true;
-      chromium = {
-        enable = true;
-      };
       vesktop.enable = true;
-      bun.enable = true;
+      uv.enable = true;
+      zathura.enable = true;
     };
 
     home.packages = with pkgs; [
