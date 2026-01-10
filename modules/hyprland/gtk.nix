@@ -1,12 +1,18 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) fonts;
+in {
   flake.modules.homeManager.hyprland = {pkgs, ...}: let
     settings = ''
       [Settings]
       gtk-theme-name=adw-gtk3
+      gtk-application-prefer-dark-theme = true
       gtk-icon-theme-name=Papirus-Dark
-      gtk-font-name=Adwaita Sans 11
       gtk-cursor-theme-name=Bibata-Modern-Classic
       gtk-cursor-theme-size=24
+      gtk-font-name=${fonts.sans.name} 11
+      gtk-font-antialiasing=rgba
+      gtk-font-rgba-order=rgb
+      gtk-font-scaling-factor=1.0
     '';
   in {
     home.packages = with pkgs; [
