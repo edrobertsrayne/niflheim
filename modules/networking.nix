@@ -1,11 +1,21 @@
+# Some settings borrowed from Srvos
 {
-  flake.modules.nixos.networking = {
+  flake.modules.nixos.networking = {lib, ...}: {
     networking = {
-      networkmanager.enable = true;
+      useNetworkd = lib.mkDefault true;
+
       firewall = {
         enable = true;
         allowPing = true;
+        logRefusedConnections = lib.mkDefault false;
       };
+    };
+    systemd = {
+      services = {
+        systemd-networkd.stopIfChanged = false;
+        systemd-resolved.stopIfChanged = false;
+      };
+      network.wait-online.enable = false;
     };
   };
 }

@@ -6,7 +6,6 @@
         capslock
         docker
         locale
-        networking
         nix
         ssh
         tailscale

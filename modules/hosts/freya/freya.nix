@@ -14,9 +14,11 @@ in {
         hyprland
         bluetooth
         gaming
+        networking
         libvirt
         python
         bun
+        wireless
       ]);
 
     boot = {
