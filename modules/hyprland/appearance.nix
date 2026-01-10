@@ -10,7 +10,7 @@ _: {
         allow_tearing = false;
         resize_on_border = false;
         "col.active_border" = "$primary";
-        "col.inactive_border" = "$surface";
+        "col.inactive_border" = "$surface-alpha";
       };
 
       decoration = {
