@@ -14,6 +14,9 @@ _: {
       };
 
       decoration = {
+        inactive_opacity = 0.8;
+        dim_inactive = true;
+        dim_strength = 0.1;
         rounding = 12;
         shadow = {
           color = "rgba(21212199)";
