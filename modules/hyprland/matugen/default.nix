@@ -4,9 +4,15 @@
     config,
     ...
   }: {
+    imports = [
+      inputs.nix-colors.homeManagerModules.default
+    ];
+
     home.packages = [
       inputs.matugen.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
+
+    colorScheme = inputs.nix-colors.colorSchemes.tokyodark;
 
     xdg = {
       configFile."matugen/config.toml".text = ''
@@ -78,7 +84,20 @@
         '';
         "matugen/gtk.css".text = builtins.readFile ./gtk.css.mustache;
         "matugen/ghostty".text = builtins.readFile ./ghostty.mustache;
-        "matugen/cava".text = builtins.readFile ./cava.mustache;
+        "matugen/cava".text = ''
+          [color]
+          background = 'default'
+          foreground = '{{colors.primary.default.hex}}'
+
+          gradient = 1
+          gradient_color_1 = '#${config.colorScheme.palette.base0E}'
+          gradient_color_2 = '#${config.colorScheme.palette.base0D}'
+          gradient_color_3 = '#${config.colorScheme.palette.base0C}'
+          gradient_color_4 = '#${config.colorScheme.palette.base0B}'
+          gradient_color_5 = '#${config.colorScheme.palette.base0A}'
+          gradient_color_6 = '#${config.colorScheme.palette.base09}'
+          gradient_color_7 = '#${config.colorScheme.palette.base08}'
+        '';
       };
     };
   };

@@ -38,17 +38,17 @@ in {
 
   flake.modules.homeManager.freya = {pkgs, ...}: {
     imports = with inputs.self.modules.homeManager; [
-      starship
-      utilities
+      ghostty
       neovim
       obsidian
       spicetify
-      ghostty
-      cava
+      starship
+      utilities
       vscodium
     ];
 
     programs = {
+      cava.enable = true;
       chromium.enable = true;
       firefox.enable = true;
       vesktop.enable = true;
