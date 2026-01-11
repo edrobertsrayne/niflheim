@@ -1,8 +1,7 @@
 _: {
   flake.modules.homeManager.hyprland = {pkgs, ...}: {
-    services.hyprpaper.enable = true;
     home.packages = [
-      (pkgs.waypaper.overrideAttrs (old: {
+      (pkgs.waypaper.overrideAttrs (_: {
         src = pkgs.fetchFromGitHub {
           owner = "anufrievroman";
           repo = "waypaper";
@@ -12,6 +11,14 @@ _: {
       }))
       pkgs.hyprpaper
     ];
+
+    services.hyprpaper = {
+      enable = true;
+      settings = {
+        ipc = "on";
+        splash = false;
+      };
+    };
 
     xdg.configFile."waypaper/config.ini".text = ''
       [Settings]
