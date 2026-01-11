@@ -1,10 +1,8 @@
 _: {
   flake.modules.nixos.thor = {
-    # Configure Samba
     services.samba = {
       enable = true;
       openFirewall = true;
-      securityType = "user";
       settings = {
         global = {
           "workgroup" = "WORKGROUP";
@@ -27,7 +25,6 @@ _: {
       };
     };
 
-    # Windows network discovery
     services.samba-wsdd.enable = true;
   };
 }
