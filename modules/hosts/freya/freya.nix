@@ -15,6 +15,7 @@ in {
         hyprland
         libvirt
         networking
+        plymouth
         wireless
         zsh
       ]);
