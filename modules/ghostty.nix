@@ -8,7 +8,7 @@ _: {
       enable = true;
       settings = {
         env = ["TERM=xterm-256color"];
-        background-opacity = 0.6;
+        background-opacity = 0.8;
         theme = "matugen";
         window-padding-x = 8;
         window-padding-y = 8;
