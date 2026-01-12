@@ -11,6 +11,10 @@
         "waypaper --restore"
         monitor-event-handler
       ];
+      bindd = [
+        "SUPER SHIFT, W, Wallpaper browser, exec, waypaper --folder $HOME/Pictures/Wallpapers"
+        "SUPER ALT, W, Random wallpaper, exec, waypaper --random --folder $HOME/Pictures/Wallpapers"
+      ];
     };
 
     home.packages = [
