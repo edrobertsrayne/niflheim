@@ -1,5 +1,7 @@
 _: {
   flake.modules.nixos.freya = {
+    powerManagement.enable = true;
+
     services.thermald.enable = true;
 
     services.auto-cpufreq = {
