@@ -7,6 +7,8 @@
       lib,
       ...
     }: {
+      wayland.windowManager.hyprland.settings.exec-once = ["waybar"];
+
       programs.waybar = {
         enable = true;
         settings = {
