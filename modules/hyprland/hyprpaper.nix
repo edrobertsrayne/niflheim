@@ -1,5 +1,18 @@
-_: {
-  flake.modules.homeManager.hyprland = {pkgs, ...}: {
+{inputs, ...}: {
+  flake.modules.homeManager.hyprland = {
+    pkgs,
+    lib,
+    ...
+  }: {
+    wayland.windowManager.hyprland.settings = let
+      monitor-event-handler = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.monitor-event-handler;
+    in {
+      exec-once = [
+        "waypaper --restore"
+        monitor-event-handler
+      ];
+    };
+
     home.packages = [
       (pkgs.waypaper.overrideAttrs (_: {
         src = pkgs.fetchFromGitHub {
