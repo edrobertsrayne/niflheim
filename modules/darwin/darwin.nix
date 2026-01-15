@@ -1,6 +1,10 @@
 {inputs, ...}: {
   flake.modules.darwin.darwin = {
     imports = [inputs.self.modules.darwin.home-manager];
+    environment.variable = {
+      LANG = "en_GB.UTF-8";
+      LC_ALL = "en_GB.UTF-8";
+    };
     system = {
       primaryUser = "ed";
       defaults = {
