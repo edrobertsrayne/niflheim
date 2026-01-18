@@ -66,6 +66,8 @@
         fstrim.enable = true;
       };
 
+      security.sudo.wheelNeedsPassword = false;
+
       virtualisation.docker.daemon.settings = {
         data-root = "/srv/docker";
       };
@@ -100,6 +102,9 @@
       imports = with inputs.self.modules.homeManager; [
         utilities
       ];
+
+      programs.bash.enable = true;
+      home.shell.enableBashIntegration = true;
     };
   };
 }
