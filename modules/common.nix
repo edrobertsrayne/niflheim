@@ -22,6 +22,7 @@
       vim
       tree
       htop
+      devenv
     ];
   };
 }
