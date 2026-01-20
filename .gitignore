@@ -3,3 +3,7 @@ result-*
 .DS_Store
 .direnv/
 loki.qcow2
+
+# devenv
+.devenv*
+devenv.local.nix
