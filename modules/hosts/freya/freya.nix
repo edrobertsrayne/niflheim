@@ -60,6 +60,7 @@ in {
     home.packages = with pkgs; [
       orca-slicer
       zotero
+      telegram-desktop
     ];
   };
 }
