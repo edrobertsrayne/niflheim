@@ -9,6 +9,14 @@ in {
       sabnzbd = {
         enable = true;
         openFirewall = true;
+        settings.misc = {
+          host_whitelist = "localhost, 127.0.0.1, ${url}";
+          local_ranges = "127.0.0.1, ::1";
+          inet_exposure = 4;
+          download_dir = "/mnt/ssd/downloads/usenet/incomplete";
+          complete_dir = "/mnt/ssd/downloads/usenet/complete";
+          permissions = "777";
+        };
       };
     };
 
@@ -18,24 +26,6 @@ in {
       "d /mnt/ssd/downloads/usenet/complete 0755 ${cfg.user} tank -"
       "d /mnt/ssd/downloads/usenet/incomplete 0755 ${cfg.user} tank -"
     ];
-
-    systemd.services.sabnzbd.preStart = ''
-      CONFIG="/var/lib/sabnzbd/sabnzbd.ini"
-
-      if [ -f "$CONFIG" ]; then
-        # Update host_whitelist to include necessary hosts
-        if ! grep -q "localhost" "$CONFIG"; then
-          sed -i "s/^host_whitelist = \(.*\)$/host_whitelist = \1, localhost, 127.0.0.1, ${url}/" "$CONFIG"
-        elif ! grep -q "${url}" "$CONFIG"; then
-          sed -i "s/^host_whitelist = \(.*\)$/host_whitelist = \1, ${url}/" "$CONFIG"
-        fi
-
-        # Update local_ranges
-        if grep -q "^local_ranges = ,$" "$CONFIG"; then
-          sed -i "s/^local_ranges = ,$/local_ranges = 127.0.0.1, ::1/" "$CONFIG"
-        fi
-      fi
-    '';
 
     services.nginx.virtualHosts."${url}" = {
       locations."/" = {
