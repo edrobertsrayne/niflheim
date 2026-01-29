@@ -45,5 +45,6 @@ _: {
     karakeep = 8081;
     mealie = 8223;
     stirlingPdf = 8082;
+    n8n = 5678;
   };
 }

@@ -25,6 +25,7 @@
         prometheus
         grafana
         loki
+        n8n
       ];
 
       boot = {
