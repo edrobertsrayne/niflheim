@@ -26,13 +26,42 @@ This configuration represents a ground-up rewrite focusing on:
 
 ---
 
+## 📁 Project Structure
+
+```
+modules/           # Aspect-oriented modules (auto-loaded by import-tree)
+├── {aspect}.nix   # Single-purpose modules (ssh.nix, docker.nix)
+├── {feature}/     # Multi-file features (hyprland/, nixvim/)
+├── hosts/         # Host-specific configs
+│   ├── freya/     # Desktop workstation (NixOS)
+│   ├── thor/      # Home server (NixOS)
+│   └── odin/      # macOS workstation (nix-darwin)
+├── media/         # Media stack (*arr apps, jellyfin)
+├── niflheim/      # Project options (+user.nix, ports.nix)
+└── lib/           # Helper functions
+
+docs/              # Reference documentation (shortcuts, cheatsheets)
+secrets/           # Encrypted secrets (agenix)
+```
+
+**Key Concepts:**
+
+- **Dendritic/Aspect-Oriented**: Modules organized by _what they do_, not where
+  they run
+- **Auto-Loading**: `import-tree` loads all tracked `.nix` files automatically
+- **Underscore Prefix**: Files like `_hardware.nix` require explicit import
+  (safety for host-specific config)
+- **Git Tracking Required**: Only git-tracked files are loaded by import-tree
+
+---
+
 ## 💻 Current Hosts
 
 | Host      | Type    | Status     | Description                                            |
 | --------- | ------- | ---------- | ------------------------------------------------------ |
 | **freya** | Desktop | ✅ Active  | Main development workstation with Hyprland             |
-| **thor**  | Server  | ✅ Active  | Media server with monitoring and self-hosted services  |
-| **imac**  | Desktop | ✅ Active  | macOS workstation with Yabai window manager            |
+| **thor**  | Server  | ✅ Active  | Media server, Home Assistant VM, monitoring & services |
+| **odin**  | Desktop | ✅ Active  | macOS workstation with Yabai window manager            |
 | **loki**  | Server  | 🗑️ Retired | Decommissioned                                         |
 
 ---
@@ -115,6 +144,10 @@ This configuration represents a ground-up rewrite focusing on:
 | <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/vaultwarden.svg" width="32"/> | Vaultwarden | Password manager | Application |
 | <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/linkwarden.svg" width="32"/> | Karakeep | Self-hosted bookmarking | Application |
 | <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/mealie.svg" width="32"/> | Mealie | Recipe manager | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/stirling-pdf.svg" width="32"/> | Stirling-PDF | PDF manipulation toolkit | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/n8n.svg" width="32"/> | n8n | Workflow automation | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/ntfy.svg" width="32"/> | ntfy | Push notification service | Application |
+| <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/uptime-kuma.svg" width="32"/> | Uptime Kuma | Status monitoring | Monitoring |
 
 ---
 
