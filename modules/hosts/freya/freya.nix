@@ -14,9 +14,8 @@ in {
         greetd
         hyprland
         libvirt
-        networking
+        network-manager
         plymouth
-        wireless
         zsh
       ]);
 
