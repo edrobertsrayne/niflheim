@@ -4,9 +4,8 @@
     lib,
     ...
   }: let
-    inherit (inputs.self.niflheim.desktop) launcher;
     launch-browser = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.launch-browser;
-    show-keybindings = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.show-keybindings;
+    # show-keybindings = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.show-keybindings;
   in {
     wayland.windowManager.hyprland.settings = {
       bindd =
@@ -24,11 +23,10 @@
           "SUPER, RETURN, Terminal, exec, uwsm-app -- xdg-terminal-exec"
           "SUPER SHIFT, B, Browser, exec, ${launch-browser}"
           "SUPER SHIFT ALT, B, Private browser, exec, ${launch-browser} --private"
-          "SUPER, SPACE, App launcher, exec, ${launcher}"
+          # "SUPER, SPACE, App launcher, exec, ${launcher}"
           "SUPER SHIFT, E, File manager, exec, uwsm-app -- ${lib.getExe pkgs.nautilus} --new-window"
-          "SUPER SHIFT, W, Wallpaper browser, exec, waypaper --folder $HOME/Pictures/Wallpapers"
-          "SUPER ALT, W, Random wallpaper, exec, waypaper --random --folder $HOME/Pictures/Wallpapers"
-          "SUPER, K, Show keybindings, exec, ${show-keybindings}"
+          # "SUPER ALT, W, Random wallpaper, exec, waypaper --random --folder $HOME/Pictures/Wallpapers"
+          # "SUPER, K, Show keybindings, exec, ${show-keybindings}"
 
           # Close all windows
           "CTRL ALT, Delete, Close all windows, exec, hyprctl clients -j | ${lib.getExe pkgs.jq} -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}"
@@ -94,33 +92,6 @@
             )
             9)
         );
-
-      # Volume and brightness controls (repeating + locked + descriptions)
-      bindeld = [
-        # Volume controls
-        ", XF86AudioRaiseVolume, Volume up, exec, swayosd-client --output-volume raise"
-        ", XF86AudioLowerVolume, Volume down, exec, swayosd-client --output-volume lower"
-        ", XF86AudioMute, Mute, exec, swayosd-client --output-volume mute-toggle"
-
-        # Brightness controls
-        ", XF86MonBrightnessUp, Brightness up, exec, swayosd-client --brightness raise"
-        ", XF86MonBrightnessDown, Brightness down, exec, swayosd-client --brightness lower"
-
-        # Precise volume adjustments
-        "ALT, XF86AudioRaiseVolume, Volume up (precise), exec, swayosd-client --output-volume +1"
-        "ALT, XF86AudioLowerVolume, Volume down (precise), exec, swayosd-client --output-volume -1"
-
-        # Precise brightness adjustments
-        "ALT, XF86MonBrightnessUp, Brightness up (precise), exec, swayosd-client --brightness +1"
-        "ALT, XF86MonBrightnessDown, Brightness down (precise), exec, swayosd-client --brightness -1"
-      ];
-
-      # Media controls (locked + descriptions)
-      bindld = [
-        ", XF86AudioPlay, Play/pause, exec, swayosd-client --playerctl play-pause"
-        ", XF86AudioNext, Next track, exec, swayosd-client --playerctl next"
-        ", XF86AudioPrev, Previous track, exec, swayosd-client --playerctl previous"
-      ];
 
       # Mouse bindings
       bindm = [

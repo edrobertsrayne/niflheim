@@ -3,17 +3,11 @@ _: {
     wayland.windowManager.hyprland = {
       settings = {
         bindd = [
-          "SUPER, V, Passthrough mode, submap, Passthrough"
           "ALT, R, Window resize mode, submap, Resize"
           "ALT, M, Media control mode, submap, Media"
         ];
       };
       submaps = {
-        Passthrough = {
-          settings.bind = [
-            ", escape, submap, reset"
-          ];
-        };
         Resize = {
           settings = {
             binde = [

@@ -1,5 +1,22 @@
-_: {
-  flake.modules.homeManager.hyprland = {pkgs, ...}: {
+{inputs, ...}: {
+  flake.modules.homeManager.hyprland = {
+    pkgs,
+    lib,
+    ...
+  }: {
+    wayland.windowManager.hyprland.settings = let
+      monitor-event-handler = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.monitor-event-handler;
+    in {
+      exec-once = [
+        "waypaper --restore"
+        monitor-event-handler
+      ];
+      bindd = [
+        "SUPER SHIFT, W, Wallpaper browser, exec, waypaper --folder $HOME/Pictures/Wallpapers"
+        "SUPER ALT, W, Random wallpaper, exec, waypaper --random --folder $HOME/Pictures/Wallpapers"
+      ];
+    };
+
     home.packages = [
       (pkgs.waypaper.overrideAttrs (_: {
         src = pkgs.fetchFromGitHub {
