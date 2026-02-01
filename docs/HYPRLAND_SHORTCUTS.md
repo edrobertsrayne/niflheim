@@ -6,8 +6,8 @@
 
 ```text
 Super+Return          Open terminal
-Super+Space           Application launcher
-Super+Shift+Space     Main menu
+Super+Space           Noctalia launcher
+Super+S               Control center
 Super+Shift+B         Open browser
 Super+W/Q             Close window
 Super+Shift+F         Fullscreen
@@ -130,17 +130,14 @@ Print                 Screenshot window
 
 ### Launch Applications
 
-| Shortcut            | Action                            |
-| ------------------- | --------------------------------- |
-| `Super+Return`      | Open terminal (launch-terminal)   |
-| `Super+Space`       | Application launcher (Walker)     |
-| `Super+Alt+Space`   | Main menu (interactive)           |
-| `Super+Shift+B`     | Open browser (launch-browser)     |
-| `Super+Shift+Alt+B` | Open browser in private mode      |
-| `Super+Shift+E`     | Open file manager (Nautilus)      |
-| `Super+Shift+W`     | Open wallpaper browser (Waypaper) |
-| `Super+Alt+W`       | Switch to random wallpaper        |
-| `Super+Shift+O`     | Open Obsidian                     |
+| Shortcut            | Action                        |
+| ------------------- | ----------------------------- |
+| `Super+Return`      | Open terminal (launch-terminal) |
+| `Super+Space`       | Noctalia launcher             |
+| `Super+Shift+B`     | Open browser (launch-browser) |
+| `Super+Shift+Alt+B` | Open browser in private mode  |
+| `Super+Shift+E`     | Open file manager (Nautilus)  |
+| `Super+Shift+O`     | Open Obsidian                 |
 | `Super+Shift+S`     | Open Spotify                      |
 | `Super+Shift+D`     | Open LazyDocker (Docker TUI)      |
 
@@ -163,7 +160,6 @@ Print                 Screenshot window
 
 | Shortcut          | Action                                |
 | ----------------- | ------------------------------------- |
-| `Super+N`         | Toggle notification centre            |
 | `Ctrl+Alt+Delete` | Close all windows (emergency cleanup) |
 | `Super+Shift+L`   | Switch keyboard layout (cycle)        |
 
@@ -171,53 +167,17 @@ Print                 Screenshot window
 
 ---
 
-## Main Menu System
+## Noctalia Shell
 
-**Shortcut**: `Super+Alt+Space`
-
-The main menu provides organized access to common tasks through a
-keyboard-driven interface:
-
-### Menu Options
-
-| Menu Item       | Description                                  |
-| --------------- | -------------------------------------------- |
-| **Apps**        | Launch applications (opens Walker)           |
-| **Learn**       | Access documentation and references          |
-| **Capture**     | Screenshot and color picker tools            |
-| **Edit Config** | Open Niflheim configuration in editor        |
-| **Clean**       | Run `nh clean all` to remove old generations |
-| **Rebuild**     | Run `nh os switch` to rebuild system         |
-| **About**       | Show system information                      |
-| **System**      | Lock, suspend, restart, or shutdown          |
-
-### Learn Submenu
-
-| Option       | Opens                               |
-| ------------ | ----------------------------------- |
-| Keybindings  | Interactive keybinding reference    |
-| NixOS Search | NixOS options search                |
-| home-manager | Home Manager options documentation  |
-| nvf          | Neovim configuration framework docs |
-| Bash         | Bash cheatsheet                     |
-
-### Capture Submenu
-
-| Option                  | Action                   |
-| ----------------------- | ------------------------ |
-| Grab the whole screen   | Screenshot entire screen |
-| Grab the current window | Screenshot active window |
-| Grab an area            | Screenshot selected area |
-| Grab a colour           | Color picker tool        |
-
-### System Submenu
-
-| Option   | Action                 |
-| -------- | ---------------------- |
-| Lock     | Lock screen (hyprlock) |
-| Suspend  | Suspend system         |
-| Restart  | Reboot system          |
-| Shutdown | Power off system       |
+| Shortcut    | Action            |
+| ----------- | ----------------- |
+| `Super+Space` | App launcher      |
+| `Super+S`   | Control center    |
+| `Super+,`   | Settings          |
+| `Super+V`   | Clipboard history |
+| `Super+.`   | Emoji picker      |
+| `Super+\``  | Window switcher   |
+| `Super+Esc` | Session menu      |
 
 ---
 
@@ -253,22 +213,18 @@ keyboard-driven interface:
 
 ### Volume Controls
 
-| Shortcut                   | Action                              |
-| -------------------------- | ----------------------------------- |
-| `XF86AudioRaiseVolume`     | Volume up (5% increments)           |
-| `XF86AudioLowerVolume`     | Volume down (5% increments)         |
-| `XF86AudioMute`            | Toggle mute                         |
-| `Alt+XF86AudioRaiseVolume` | Volume up (precise 1% increments)   |
-| `Alt+XF86AudioLowerVolume` | Volume down (precise 1% increments) |
+| Shortcut               | Action        |
+| ---------------------- | ------------- |
+| `XF86AudioRaiseVolume` | Volume up     |
+| `XF86AudioLowerVolume` | Volume down   |
+| `XF86AudioMute`        | Toggle mute   |
 
 ### Brightness Controls
 
-| Shortcut                    | Action                                  |
-| --------------------------- | --------------------------------------- |
-| `XF86MonBrightnessUp`       | Brightness up (10% increments)          |
-| `XF86MonBrightnessDown`     | Brightness down (10% increments)        |
-| `Alt+XF86MonBrightnessUp`   | Brightness up (precise 1% increments)   |
-| `Alt+XF86MonBrightnessDown` | Brightness down (precise 1% increments) |
+| Shortcut                | Action          |
+| ----------------------- | --------------- |
+| `XF86MonBrightnessUp`   | Brightness up   |
+| `XF86MonBrightnessDown` | Brightness down |
 
 ### Media Playback
 
@@ -282,8 +238,8 @@ keyboard-driven interface:
 
 - Repeating binds (hold for continuous adjustment)
 - Locked binds (work even when screen is locked)
-- SwayOSD integration for visual feedback
-- Playerctl integration for media controls
+- Noctalia integration for visual feedback
+- Media controls via Noctalia IPC
 
 ---
 
@@ -322,7 +278,7 @@ following omarchy principles.
 **Config managed via**:
 
 - `modules/hyprland/keybinds.nix` - Keyboard shortcuts
-- `modules/hyprland/menu.nix` - Main menu system
+- `modules/hyprland/noctalia.nix` - Noctalia shell integration
 - `modules/hyprland/screenshot.nix` - Screenshot and color picker
 - `modules/hyprland/hyprland.nix` - Core compositor settings
 - `modules/hyprland/appearance.nix` - Visual styling
