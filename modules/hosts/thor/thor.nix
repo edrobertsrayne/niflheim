@@ -27,6 +27,7 @@
         loki
         n8n
         ntfy
+        code-server
       ];
 
       boot = {
