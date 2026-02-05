@@ -48,5 +48,6 @@ _: {
     n8n = 5678;
     ntfy = 2586;
     codeServer = 8888;
+    searxng = 8083;
   };
 }

@@ -28,6 +28,7 @@
         n8n
         ntfy
         code-server
+        searxng
       ];
 
       boot = {
