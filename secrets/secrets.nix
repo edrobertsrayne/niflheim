@@ -6,6 +6,7 @@ let
   systems = [freya odin thor loki];
   users = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJdf/364Rgul97UR6vn4caDuuxBk9fUrRjfpMsa4sfam ed@freya"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINW5tgMzPytrfk373U9EfL5ol6No9lIelF6dL8ZYSe0B ed@thor"
   ];
 in {
   "tailscale.age".publicKeys = systems ++ users;
@@ -15,4 +16,5 @@ in {
   "karakeep.age".publicKeys = systems ++ users;
   "mealie.age".publicKeys = systems ++ users;
   "n8n.age".publicKeys = systems ++ users;
+  "searxng.age".publicKeys = systems ++ users;
 }
