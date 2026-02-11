@@ -109,6 +109,7 @@
 
       programs.bash.enable = true;
       home.shell.enableBashIntegration = true;
+      programs.bun.enable = true;
     };
   };
 }
