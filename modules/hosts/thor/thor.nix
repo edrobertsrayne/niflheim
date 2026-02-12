@@ -105,11 +105,8 @@
     modules.homeManager.thor = {
       imports = with inputs.self.modules.homeManager; [
         utilities
+        bash
       ];
-
-      programs.bash.enable = true;
-      home.shell.enableBashIntegration = true;
-      programs.bun.enable = true;
     };
   };
 }
