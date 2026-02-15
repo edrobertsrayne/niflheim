@@ -106,6 +106,7 @@
       imports = with inputs.self.modules.homeManager; [
         utilities
         bash
+        neovim
       ];
     };
   };
