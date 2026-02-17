@@ -26,6 +26,7 @@
         grafana
         loki
         n8n
+        immich
         ntfy
         code-server
         searxng

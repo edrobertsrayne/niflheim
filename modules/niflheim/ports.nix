@@ -47,6 +47,7 @@ _: {
     stirlingPdf = 8082;
     n8n = 5678;
     ntfy = 2586;
+    immich = 2283;
     codeServer = 8888;
     searxng = 8083;
   };
