@@ -41,6 +41,11 @@
           };
         };
       };
+      zramSwap = {
+        enable = true;
+        memoryPercent = 25;
+      };
+
       users.groups.tank.members = ["${inputs.self.niflheim.user.username}"];
 
       # Ensure tmpfiles runs after /mnt/ssd is mounted
