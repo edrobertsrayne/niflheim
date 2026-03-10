@@ -1,7 +1,13 @@
 {inputs, ...}: let
   inherit (inputs.self.niflheim) server monitoring ports;
 in {
-  flake.modules.nixos.grafana = {
+  flake.modules.nixos.grafana = {config, ...}: {
+    age.secrets.grafana = {
+      file = ../secrets/grafana.age;
+      owner = "grafana";
+      group = "grafana";
+    };
+
     services.grafana = {
       enable = true;
       settings = {
@@ -10,6 +16,7 @@ in {
           domain = "grafana.${server.domain}";
           root_url = "https://grafana.${server.domain}";
         };
+        security.secret_key = "$__file{${config.age.secrets.grafana.path}}";
         analytics.reporting_enabled = false;
       };
       dataDir = "/srv/grafana";

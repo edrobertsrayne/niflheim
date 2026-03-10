@@ -17,4 +17,5 @@ in {
   "mealie.age".publicKeys = systems ++ users;
   "n8n.age".publicKeys = systems ++ users;
   "searxng.age".publicKeys = systems ++ users;
+  "grafana.age".publicKeys = systems ++ users;
 }
