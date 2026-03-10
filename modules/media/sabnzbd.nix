@@ -9,6 +9,7 @@ in {
       sabnzbd = {
         enable = true;
         openFirewall = true;
+        configFile = null;
         settings.misc = {
           host_whitelist = "localhost, 127.0.0.1, ${url}";
           local_ranges = "127.0.0.1, ::1";
