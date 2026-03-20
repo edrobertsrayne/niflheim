@@ -20,21 +20,7 @@
           }
         ];
       };
-
-    darwinSystem = system: name:
-      inputs.nix-darwin.lib.darwinSystem {
-        inherit system;
-        modules = [
-          inputs.self.modules.darwin.darwin
-          (inputs.self.modules.darwin.${name} or {})
-          {
-            networking.hostName = lib.mkDefault name;
-            nixpkgs.hostPlatform = lib.mkDefault system;
-            system.stateVersion = 6;
-          }
-        ];
-      };
   in {
-    inherit nixosSystem darwinSystem;
+    inherit nixosSystem;
   };
 }
