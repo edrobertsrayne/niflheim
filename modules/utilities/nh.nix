@@ -2,7 +2,7 @@ _: {
   flake.modules.homeManager.utilities = {
     programs.nh = {
       enable = true;
-      flake = "github:edrobertsrayne/niflheim";
+      flake = "github:edrobertsrayne/nix-config";
       clean = {
         enable = true;
         dates = "daily";

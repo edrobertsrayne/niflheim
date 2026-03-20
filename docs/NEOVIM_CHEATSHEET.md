@@ -1,4 +1,4 @@
-# Neovim Cheatsheet - Niflheim Configuration
+# Neovim Cheatsheet - NixOS Configuration
 
 ## Quick Reference Card
 
