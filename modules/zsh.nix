@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim.user) username;
+  inherit (inputs.self.settings.user) username;
 
   # Base system shell configuration
   base = pkgs: {

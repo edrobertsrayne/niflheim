@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server monitoring ports;
+  inherit (inputs.self.settings) server monitoring ports;
 in {
   flake.modules.nixos.grafana = {config, ...}: {
     age.secrets.grafana = {

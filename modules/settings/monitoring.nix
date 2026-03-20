@@ -1,5 +1,5 @@
 {lib, ...}: {
-  options.flake.niflheim.monitoring = with lib; {
+  options.flake.settings.monitoring = with lib; {
     serverAddress = mkOption {
       type = types.str;
       default = "thor";

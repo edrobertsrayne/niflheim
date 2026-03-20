@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) ports;
+  inherit (inputs.self.settings) ports;
 in {
   flake.modules.nixos.media = {
     pkgs,
@@ -14,7 +14,7 @@ in {
       };
     };
 
-    services.nginx.virtualHosts."jellyfin.${inputs.self.niflheim.server.domain}" = {
+    services.nginx.virtualHosts."jellyfin.${inputs.self.settings.server.domain}" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString ports.media.jellyfin}";
         proxyWebsockets = true;

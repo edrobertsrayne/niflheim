@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server ports;
+  inherit (inputs.self.settings) server ports;
   apikey = "f6a4315040e94c7c9eb2aefe5bfc4445";
   service = "lidarr";
 in {

@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) monitoring ports;
+  inherit (inputs.self.settings) monitoring ports;
 in {
   flake.modules.nixos.thor = _: {
     services.promtail = {
