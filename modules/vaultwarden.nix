@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server ports;
+  inherit (inputs.self.settings) server ports;
   url = "vault.${server.domain}";
   port = ports.vaultwarden;
 in {

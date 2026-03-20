@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) ports;
+  inherit (inputs.self.settings) ports;
 in {
   flake.modules.nixos.nginx = {
     services.nginx = {

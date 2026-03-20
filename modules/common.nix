@@ -3,7 +3,6 @@
     imports = with inputs.self.modules.nixos;
       [
         avahi
-        capslock
         docker
         locale
         nix

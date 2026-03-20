@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server ports user;
+  inherit (inputs.self.settings) server ports user;
   url = "code.${server.domain}";
   port = ports.codeServer;
 in {

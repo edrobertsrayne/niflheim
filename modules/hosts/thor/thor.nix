@@ -2,7 +2,7 @@
   flake = let
     tunnel = "23c4423f-ec30-423b-ba18-ba18904ddb85";
     secret = ../../../secrets/cloudflare-thor.age;
-    inherit (inputs.self.niflheim.server) domain;
+    inherit (inputs.self.settings.server) domain;
   in {
     modules.nixos.thor = {
       config,
@@ -46,7 +46,7 @@
         memoryPercent = 25;
       };
 
-      users.groups.tank.members = ["${inputs.self.niflheim.user.username}"];
+      users.groups.tank.members = ["${inputs.self.settings.user.username}"];
 
       # Ensure tmpfiles runs after /mnt/ssd is mounted
       systemd.services.systemd-tmpfiles-setup.after = ["mnt-ssd.mount"];

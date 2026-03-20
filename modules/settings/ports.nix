@@ -1,5 +1,5 @@
 _: {
-  flake.niflheim.ports = {
+  flake.settings.ports = {
     # Infrastructure
     ssh = 22;
     http = 80;
