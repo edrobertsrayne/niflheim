@@ -50,5 +50,6 @@ _: {
     immich = 2283;
     codeServer = 8888;
     searxng = 8083;
+    logseq = 8084;
   };
 }

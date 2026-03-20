@@ -22,6 +22,12 @@ _: {
           "read only" = "no";
           "guest ok" = "yes";
         };
+        "backup" = {
+          "path" = "/mnt/storage/backup";
+          "browseable" = "yes";
+          "read only" = "no";
+          "guest ok" = "yes";
+        };
       };
     };
 

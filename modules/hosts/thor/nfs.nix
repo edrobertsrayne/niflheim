@@ -9,6 +9,10 @@ _: {
         device = "/mnt/ssd/downloads";
         options = ["bind"];
       };
+      "/export/backup" = {
+        device = "/mnt/storage/backup";
+        options = ["bind"];
+      };
     };
 
     services.nfs.server = {
@@ -17,6 +21,7 @@ _: {
         /export         192.168.68.0/22(insecure,rw,sync,no_subtree_check,crossmnt,fsid=0) 100.64.0.0/10(insecure,rw,sync,no_subtree_check,crossmnt,fsid=0)
         /export/media    192.168.68.0/22(insecure,rw,sync,no_subtree_check,nohide,fsid=1) 100.64.0.0/10(insecure,rw,sync,no_subtree_check,nohide,fsid=1)
         /export/downloads    192.168.68.0/22(insecure,rw,sync,no_subtree_check,nohide,fsid=2) 100.64.0.0/10(insecure,rw,sync,no_subtree_check,nohide,fsid=2)
+        /export/backup    192.168.68.0/22(insecure,rw,sync,no_subtree_check,nohide,fsid=3) 100.64.0.0/10(insecure,rw,sync,no_subtree_check,nohide,fsid=3)
       '';
     };
 
