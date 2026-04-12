@@ -24,7 +24,7 @@ _: {
     # Media services
     media = {
       jellyfin = 8096;
-      jellyseerr = 5055;
+      seerr = 5055;
       radarr = 7878;
       sonarr = 8989;
       lidarr = 8686;
