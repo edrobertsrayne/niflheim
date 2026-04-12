@@ -10,7 +10,7 @@ _: {
     prometheus = 9090;
     grafana = 3000;
     loki = 3100;
-    promtail = 9080;
+    alloy = 12345;
 
     # Exporters (9xxx series)
     exporters = {

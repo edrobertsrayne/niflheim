@@ -3,14 +3,17 @@ _: {
     fileSystems = {
       "/export/media" = {
         device = "/mnt/storage/media";
+        fsType = "none";
         options = ["bind"];
       };
       "/export/downloads" = {
         device = "/mnt/ssd/downloads";
+        fsType = "none";
         options = ["bind"];
       };
       "/export/backup" = {
         device = "/mnt/storage/backup";
+        fsType = "none";
         options = ["bind"];
       };
     };
