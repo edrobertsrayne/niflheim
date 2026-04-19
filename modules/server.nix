@@ -1,0 +1,55 @@
+_: {
+  flake.modules.nixos.server = {
+    lib,
+    pkgs,
+    ...
+  }: {
+    systemd = {
+      # Headless server: keep booting even on failure
+      enableEmergencyMode = false;
+
+      # Servers don't sleep
+      sleep.settings.Sleep = {
+        AllowSuspend = "no";
+        AllowHibernation = "no";
+      };
+
+      # Hardware watchdog: force reboot on hang
+      watchdog = {
+        runtimeTime = lib.mkDefault "15s";
+        rebootTime = lib.mkDefault "30s";
+        kexecTime = lib.mkDefault "1m";
+      };
+    };
+
+    environment = {
+      # Print URLs rather than opening a browser
+      variables.BROWSER = "echo";
+
+      stub-ld.enable = false;
+
+      # srvos default server packages
+      systemPackages = with pkgs; [
+        (lib.lowPrio gitMinimal)
+        (lib.lowPrio dnsutils)
+        (lib.lowPrio jq)
+        (lib.lowPrio tmux)
+      ];
+    };
+
+    programs.command-not-found.enable = false;
+
+    fonts.fontconfig.enable = false;
+
+    documentation = {
+      enable = false;
+      doc.enable = false;
+      info.enable = false;
+      man.enable = false;
+      nixos.enable = false;
+    };
+
+    # Reduce ZFS monthly snapshots (default is 12)
+    services.zfs.autoSnapshot.monthly = lib.mkDefault 1;
+  };
+}

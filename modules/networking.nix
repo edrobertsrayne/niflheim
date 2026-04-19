@@ -10,6 +10,7 @@
         logRefusedConnections = lib.mkDefault false;
       };
     };
+    services.resolved.settings.Resolve.LLMNR = lib.mkDefault "false";
     systemd = {
       services = {
         systemd-networkd.stopIfChanged = false;

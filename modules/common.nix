@@ -6,7 +6,9 @@
         capslock
         docker
         locale
+        networking
         nix
+        server
         ssh
         tailscale
         user

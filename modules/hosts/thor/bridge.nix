@@ -16,7 +16,10 @@ _: {
           prefixLength = 22;
         }
       ];
-      defaultGateway = "192.168.68.1";
+      defaultGateway = {
+        address = "192.168.68.1";
+        interface = "br0";
+      };
       nameservers = ["1.1.1.1" "8.8.8.8"];
     };
   };

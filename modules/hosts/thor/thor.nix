@@ -34,12 +34,17 @@
 
       boot = {
         loader = {
-          systemd-boot.enable = true;
+          systemd-boot = {
+            enable = true;
+            configurationLimit = 5;
+          };
           efi = {
             canTouchEfiVariables = true;
             efiSysMountPoint = "/boot";
           };
         };
+        initrd.systemd.enable = true;
+        tmp.cleanOnBoot = true;
       };
       zramSwap = {
         enable = true;
