@@ -52,7 +52,7 @@ _: {
                 servers = ["pyright"];
               };
             };
-            ts = {
+            typescript = {
               enable = true;
               lsp.enable = true;
               format = {
