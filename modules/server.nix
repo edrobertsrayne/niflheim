@@ -15,10 +15,10 @@ _: {
       };
 
       # Hardware watchdog: force reboot on hang
-      watchdog = {
-        runtimeTime = lib.mkDefault "15s";
-        rebootTime = lib.mkDefault "30s";
-        kexecTime = lib.mkDefault "1m";
+      settings.Manager = {
+        RuntimeWatchdogSec = lib.mkDefault "15s";
+        RebootWatchdogSec = lib.mkDefault "30s";
+        KExecWatchdogSec = lib.mkDefault "1m";
       };
     };
 
