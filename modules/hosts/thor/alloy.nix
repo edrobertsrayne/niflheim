@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) monitoring ports;
+  inherit (inputs.self.niflheim) ports;
 in {
   flake.modules.nixos.thor = {pkgs, ...}: let
     alloyConfig = pkgs.writeText "config.alloy" ''
@@ -28,7 +28,7 @@ in {
 
       loki.write "default" {
         endpoint {
-          url = "http://${monitoring.serverAddress}:${toString ports.loki}/loki/api/v1/push"
+          url = "http://thor:${toString ports.loki}/loki/api/v1/push"
         }
       }
     '';

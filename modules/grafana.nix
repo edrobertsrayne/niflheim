@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) server monitoring ports;
+  inherit (inputs.self.niflheim) server ports;
 in {
   flake.modules.nixos.grafana = {config, ...}: {
     age.secrets.grafana = {
@@ -27,14 +27,14 @@ in {
             name = "Prometheus";
             type = "prometheus";
             access = "proxy";
-            url = "http://${monitoring.serverAddress}:${toString ports.prometheus}";
+            url = "http://thor:${toString ports.prometheus}";
             isDefault = true;
           }
           {
             name = "Loki";
             type = "loki";
             access = "proxy";
-            url = "http://${monitoring.serverAddress}:${toString ports.loki}";
+            url = "http://thor:${toString ports.loki}";
           }
         ];
       };
