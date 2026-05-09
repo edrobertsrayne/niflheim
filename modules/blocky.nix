@@ -1,7 +1,12 @@
 {inputs, ...}: let
   inherit (inputs.self.niflheim) ports;
 in {
-  flake.modules.nixos.blocky = {pkgs, ...}: {
+  flake.modules.nixos.blocky = {
+    pkgs,
+    lib,
+    ...
+  }: {
+    services.resolved.enable = lib.mkForce false;
     services.blocky = {
       enable = true;
       settings = {
@@ -26,10 +31,11 @@ in {
           ips = ["1.1.1.1" "1.0.0.1"];
         };
         blocking = {
+          loading.strategy = "fast";
           denylists = {
             ads = [
               "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
-              "https://small.oisd.nl/rpz"
+              "https://small.oisd.nl/domainswild"
               "https://raw.githubusercontent.com/lassekongo83/Frellwits-filter-lists/master/Frellwits-Swedish-Hosts-File.txt"
               "https://v.firebog.net/hosts/AdguardDNS.txt"
               (pkgs.writeText "adblock.txt" ''
@@ -104,6 +110,10 @@ in {
           };
         };
       };
+    };
+    networking.firewall = {
+      allowedTCPPorts = [ports.dns];
+      allowedUDPPorts = [ports.dns];
     };
   };
 }
