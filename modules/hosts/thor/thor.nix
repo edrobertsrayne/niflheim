@@ -45,6 +45,7 @@
         };
         initrd.systemd.enable = true;
         tmp.cleanOnBoot = true;
+        zfs.forceImportRoot = false;
       };
       zramSwap = {
         enable = true;
