@@ -53,7 +53,7 @@ in {
 
     system.autoUpgrade = {
       enable = true;
-      flake = "github:edrobertsrayne/niflheim";
+      flake = "github:edrobertsrayne/nix-config";
       flags = [];
       dates = "04:00";
     };
